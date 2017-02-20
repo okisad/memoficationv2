@@ -1,10 +1,12 @@
 package com.oktaysadoglu.memofication.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.oktaysadoglu.memofication.R;
@@ -20,10 +22,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MainActivitySetupNavigationToolbar mainActivitySetupNavigationToolbar = new MainActivitySetupNavigationToolbar(this);
+        actionBarDrawerToggle = new MainActivitySetupNavigationToolbar(this,getPlatform(getIntent())).setup();
 
-        actionBarDrawerToggle = mainActivitySetupNavigationToolbar.setup();
+    }
 
+    private int getPlatform(Intent intent){
+        return intent.getIntExtra(LoginActivity.PLATFORM,0);
     }
 
     @Override

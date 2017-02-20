@@ -14,6 +14,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.oktaysadoglu.memofication.Memofication;
 import com.oktaysadoglu.memofication.activities.LoginActivity;
 import com.oktaysadoglu.memofication.R;
 
@@ -23,9 +24,7 @@ import com.oktaysadoglu.memofication.R;
 
 public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedListener,View.OnClickListener{
 
-    private GoogleSignInOptions gso;
-
-    private GoogleApiClient mGoogleApiClient;
+    public static int GOOGLE_LOGIN = 2;
 
     private SignInButton googleSignInButton;
 
@@ -36,10 +35,6 @@ public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedLi
     private static GooglePlusLoginUtil socialGoogleLogin;
 
     private GooglePlusLoginUtil(){
-
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
 
     }
 
@@ -58,14 +53,16 @@ public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedLi
 
         this.appCompatActivity = appCompatActivity;
 
-        mGoogleApiClient = new GoogleApiClient.Builder(appCompatActivity)
-                .enableAutoManage(appCompatActivity /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
         googleSignInButton = (SignInButton) appCompatActivity.findViewById(R.id.sign_in_button);
 
         googleSignInButton.setOnClickListener(this);
+
+        Memofication.getGoogleApiClient(appCompatActivity, new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+            }
+        });
 
         /*googleLogOutButton = (Button) appCompatActivity.findViewById(R.id.logout_button);*/
 
@@ -89,18 +86,9 @@ public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedLi
         }
     }
 
-    private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-                Log.e("my","signout");
-            }
-        });
-    }
-
     private void signIn() {
 
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(Memofication.getGoogleApiClient());
         appCompatActivity.startActivityForResult(signInIntent, LoginActivity.RC_SIGN_IN);
 
     }

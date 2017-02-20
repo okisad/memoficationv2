@@ -14,8 +14,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public static int RC_SIGN_IN = 1;
 
-    private FacebookLoginUtil facebookLoginUtil;
+    public static String PLATFORM = "platform";
 
+
+    private FacebookLoginUtil facebookLoginUtil;
     private GooglePlusLoginUtil googlePlusLoginUtil;
 
     @Override
@@ -23,13 +25,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        facebookLoginUtil = FacebookLoginUtil.getInstance();
+        FacebookLoginUtil.getInstance().setup(this);
 
-        facebookLoginUtil.setup(this);
-
-        googlePlusLoginUtil = GooglePlusLoginUtil.getInstance();
-
-        googlePlusLoginUtil.setup(this);
+        GooglePlusLoginUtil.getInstance().setup(this);
 
     }
 
@@ -44,11 +42,13 @@ public class LoginActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this,MainActivity.class);
 
+            intent.putExtra(PLATFORM,GooglePlusLoginUtil.GOOGLE_LOGIN);
+
             startActivity(intent);
 
         }else {
 
-            facebookLoginUtil.getCallbackManager().onActivityResult(requestCode,resultCode,data);
+            FacebookLoginUtil.getInstance().getCallbackManager().onActivityResult(requestCode,resultCode,data);
 
         }
 

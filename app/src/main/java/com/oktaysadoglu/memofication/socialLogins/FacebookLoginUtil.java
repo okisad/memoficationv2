@@ -3,13 +3,17 @@ package com.oktaysadoglu.memofication.socialLogins;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.oktaysadoglu.memofication.activities.LoginActivity;
 import com.oktaysadoglu.memofication.activities.MainActivity;
 import com.oktaysadoglu.memofication.R;
 
@@ -18,6 +22,8 @@ import com.oktaysadoglu.memofication.R;
  */
 
 public class FacebookLoginUtil {
+
+    public static int FACEBOOK_LOGIN = 1;
 
     private CallbackManager callbackManager;
 
@@ -57,6 +63,8 @@ public class FacebookLoginUtil {
 
                 Intent intent = new Intent(appCompatActivity,MainActivity.class);
 
+                intent.putExtra(LoginActivity.PLATFORM,FacebookLoginUtil.FACEBOOK_LOGIN);
+
                 appCompatActivity.startActivity(intent);
 
             }
@@ -75,7 +83,7 @@ public class FacebookLoginUtil {
 
     public void logoutProcess(final AppCompatActivity appCompatActivity){
 
-        /*Button button = (Button) appCompatActivity.findViewById(R.id.logout);
+        Button button = (Button) appCompatActivity.findViewById(R.id.activity_main_navigation_view_logout_button);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +95,7 @@ public class FacebookLoginUtil {
                 appCompatActivity.startActivity(intent);
 
             }
-        });*/
+        });
 
     }
 
