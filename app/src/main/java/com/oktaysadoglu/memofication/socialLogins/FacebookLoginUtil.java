@@ -1,4 +1,4 @@
-package com.oktaysadoglu.memofication.SocialMediaIntegrations;
+package com.oktaysadoglu.memofication.socialLogins;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.oktaysadoglu.memofication.MainActivity;
+import com.oktaysadoglu.memofication.activities.MainActivity;
 import com.oktaysadoglu.memofication.R;
 
 /**

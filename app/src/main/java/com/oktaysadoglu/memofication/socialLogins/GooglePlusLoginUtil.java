@@ -1,4 +1,4 @@
-package com.oktaysadoglu.memofication.SocialMediaIntegrations;
+package com.oktaysadoglu.memofication.socialLogins;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -14,7 +14,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.oktaysadoglu.memofication.LoginActivity;
+import com.oktaysadoglu.memofication.activities.LoginActivity;
 import com.oktaysadoglu.memofication.R;
 
 /**
@@ -54,7 +54,7 @@ public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedLi
 
     }
 
-    public void loginProcess(AppCompatActivity appCompatActivity){
+    public void setup(AppCompatActivity appCompatActivity){
 
         this.appCompatActivity = appCompatActivity;
 
