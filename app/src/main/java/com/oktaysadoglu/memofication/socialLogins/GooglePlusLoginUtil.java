@@ -26,11 +26,9 @@ import com.oktaysadoglu.memofication.activities.MainActivityGoogle;
  * Created by oktaysadoglu on 17/02/2017.
  */
 
-public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedListener,View.OnClickListener{
+public class GooglePlusLoginUtil extends LoginUtil implements GoogleApiClient.OnConnectionFailedListener,View.OnClickListener{
 
     public static int RC_SIGN_IN = 9001;
-
-    public static int GOOGLE_LOGIN = 2;
 
     private SignInButton googleSignInButton;
 
@@ -38,26 +36,14 @@ public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedLi
 
     private AppCompatActivity appCompatActivity;
 
-    private static GooglePlusLoginUtil socialGoogleLogin;
-
-    private GooglePlusLoginUtil(){
-
-    }
-
-    public static GooglePlusLoginUtil getInstance(){
-
-        if (socialGoogleLogin == null){
-            socialGoogleLogin = new GooglePlusLoginUtil();
-            return socialGoogleLogin;
-        }else {
-            return socialGoogleLogin;
-        }
-
-    }
-
-    public void setup(final AppCompatActivity appCompatActivity){
+    public GooglePlusLoginUtil(AppCompatActivity appCompatActivity){
 
         this.appCompatActivity = appCompatActivity;
+
+    }
+
+    @Override
+    public void setup(){
 
         googleSignInButton = (SignInButton) appCompatActivity.findViewById(R.id.sign_in_button);
 
@@ -68,8 +54,8 @@ public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedLi
         googleApiClient = ((Memofication) appCompatActivity.getApplication()).getGoogleApiClient(appCompatActivity, this);
     }
 
-
-    public void setupLogout(final AppCompatActivity appCompatActivity, final GoogleApiClient googleApiClient){
+    @Override
+    public void setupLogout(final GoogleApiClient googleApiClient){
 
 
         Button button = (Button) appCompatActivity.findViewById(R.id.activity_main_navigation_view_logout_button);
@@ -90,6 +76,7 @@ public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedLi
 
     }
 
+    @Override
     public void setupCache(){
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
         if (opr.isDone()) {
@@ -112,6 +99,13 @@ public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedLi
 
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+        Intent googleSignInIntent = new Intent(appCompatActivity, MainActivityGoogle.class);
+        appCompatActivity.startActivity(googleSignInIntent);
+    }
+
+    @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
@@ -130,12 +124,6 @@ public class GooglePlusLoginUtil implements GoogleApiClient.OnConnectionFailedLi
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         appCompatActivity.startActivityForResult(signInIntent, RC_SIGN_IN);
 
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        Intent googleSignInIntent = new Intent(appCompatActivity, MainActivityGoogle.class);
-        appCompatActivity.startActivity(googleSignInIntent);
     }
 
     public void disconnectGoogleApiClient(){

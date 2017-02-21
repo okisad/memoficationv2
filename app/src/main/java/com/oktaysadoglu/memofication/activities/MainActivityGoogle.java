@@ -7,18 +7,19 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.oktaysadoglu.memofication.Memofication;
 import com.oktaysadoglu.memofication.socialLogins.GooglePlusLoginUtil;
+import com.oktaysadoglu.memofication.socialLogins.LoginUtil;
 
 public class MainActivityGoogle extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient mGoogleApiClient;
 
-    private GooglePlusLoginUtil googlePlusLoginUtil;
+    private LoginUtil googlePlusLoginUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        googlePlusLoginUtil = GooglePlusLoginUtil.getInstance();
+        googlePlusLoginUtil = new GooglePlusLoginUtil(this);
 
         mGoogleApiClient = ((Memofication) getApplication()).getGoogleApiClient(this, this);
 
@@ -32,7 +33,7 @@ public class MainActivityGoogle extends BaseActivity implements GoogleApiClient.
 
         super.onStart();
 
-        googlePlusLoginUtil.setupLogout(this,mGoogleApiClient);
+        googlePlusLoginUtil.setupLogout(mGoogleApiClient);
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.oktaysadoglu.memofication.activities.LoginActivity;
 import com.oktaysadoglu.memofication.activities.MainActivityFacebook;
 import com.oktaysadoglu.memofication.activities.MainActivityGoogle;
@@ -23,23 +24,16 @@ import com.oktaysadoglu.memofication.R;
  * Created by oktaysadoglu on 17/02/2017.
  */
 
-public class FacebookLoginUtil {
-
-    public static int FACEBOOK_LOGIN = 1;
+public class FacebookLoginUtil extends LoginUtil{
 
     private CallbackManager callbackManager;
 
-    private static FacebookLoginUtil socailNetworkLogin = null;
+    private AppCompatActivity appCompatActivity;
 
-    private FacebookLoginUtil() {
-    }
+    public FacebookLoginUtil(AppCompatActivity appCompatActivity) {
 
-    public static FacebookLoginUtil getInstance() {
-        if (socailNetworkLogin == null){
-            socailNetworkLogin = new FacebookLoginUtil();
-            return socailNetworkLogin;
-        }else
-            return socailNetworkLogin;
+        this.appCompatActivity = appCompatActivity;
+
     }
 
     public String getAccessToken() {
@@ -51,7 +45,9 @@ public class FacebookLoginUtil {
 
     }
 
-    public void setup(final AppCompatActivity appCompatActivity) {
+
+    @Override
+    public void setup() {
 
         LoginButton loginButton = (LoginButton) appCompatActivity.findViewById(R.id.login_button);
 
@@ -64,8 +60,6 @@ public class FacebookLoginUtil {
                 Log.e("my","onsuccess");
 
                 Intent intent = new Intent(appCompatActivity,MainActivityFacebook.class);
-
-                intent.putExtra(LoginActivity.PLATFORM,FacebookLoginUtil.FACEBOOK_LOGIN);
 
                 appCompatActivity.startActivity(intent);
 
@@ -84,7 +78,25 @@ public class FacebookLoginUtil {
 
     }
 
-    public void setupLogout(final AppCompatActivity appCompatActivity){
+    @Override
+    public void setupCache() {
+
+        if(Profile.getCurrentProfile() != null){
+
+            Intent intent = new Intent(appCompatActivity,MainActivityFacebook.class);
+
+            appCompatActivity.startActivity(intent);
+
+        }
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        callbackManager.onActivityResult(requestCode,resultCode,data);
+    }
+
+    @Override
+    public void setupLogout(GoogleApiClient googleApiClient) {
 
         Button button = (Button) appCompatActivity.findViewById(R.id.activity_main_navigation_view_logout_button);
 
@@ -102,24 +114,5 @@ public class FacebookLoginUtil {
 
     }
 
-    public void controlUser(AppCompatActivity appCompatActivity){
-
-        if(Profile.getCurrentProfile() != null){
-
-            Intent intent = new Intent(appCompatActivity,MainActivityFacebook.class);
-
-            appCompatActivity.startActivity(intent);
-
-        }
-
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        callbackManager.onActivityResult(requestCode,resultCode,data);
-    }
-
-    public CallbackManager getCallbackManager() {
-        return callbackManager;
-    }
 
 }

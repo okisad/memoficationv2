@@ -14,11 +14,6 @@ import static com.oktaysadoglu.memofication.socialLogins.GooglePlusLoginUtil.RC_
 
 public class LoginActivity extends AppCompatActivity {
 
-
-
-    public static String PLATFORM = "platform";
-
-
     private FacebookLoginUtil facebookLoginUtil;
     private GooglePlusLoginUtil googlePlusLoginUtil;
 
@@ -27,13 +22,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        googlePlusLoginUtil = GooglePlusLoginUtil.getInstance();
+        googlePlusLoginUtil = new GooglePlusLoginUtil(this);
 
-        googlePlusLoginUtil.setup(this);
+        googlePlusLoginUtil.setup();
 
-        facebookLoginUtil = FacebookLoginUtil.getInstance();
+        facebookLoginUtil = new FacebookLoginUtil(this);
 
-        facebookLoginUtil.setup(this);
+        facebookLoginUtil.setup();
 
     }
 
@@ -42,9 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         googlePlusLoginUtil.connectGoogleApiClient();
         super.onStart();
         googlePlusLoginUtil.setupCache();
-
-        facebookLoginUtil.controlUser(this);
-
+        facebookLoginUtil.setupCache();
     }
 
     @Override
@@ -63,13 +56,11 @@ public class LoginActivity extends AppCompatActivity {
 
         if (requestCode == RC_SIGN_IN){
 
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            Intent googleSignInIntent = new Intent(LoginActivity.this, MainActivityGoogle.class);
-            startActivity(googleSignInIntent);
+            googlePlusLoginUtil.onActivityResult(requestCode,resultCode,data);
 
         }else {
 
-            FacebookLoginUtil.getInstance().getCallbackManager().onActivityResult(requestCode,resultCode,data);
+            facebookLoginUtil.onActivityResult(requestCode,resultCode,data);
 
         }
 
