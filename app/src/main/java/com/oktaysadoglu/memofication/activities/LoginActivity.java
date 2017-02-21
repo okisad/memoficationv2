@@ -10,9 +10,11 @@ import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.socialLogins.FacebookLoginUtil;
 import com.oktaysadoglu.memofication.socialLogins.GooglePlusLoginUtil;
 
+import static com.oktaysadoglu.memofication.socialLogins.GooglePlusLoginUtil.RC_SIGN_IN;
+
 public class LoginActivity extends AppCompatActivity {
 
-    public static int RC_SIGN_IN = 1;
+
 
     public static String PLATFORM = "platform";
 
@@ -25,9 +27,32 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        FacebookLoginUtil.getInstance().setup(this);
+        googlePlusLoginUtil = GooglePlusLoginUtil.getInstance();
 
-        GooglePlusLoginUtil.getInstance().setup(this);
+        googlePlusLoginUtil.setup(this);
+
+        facebookLoginUtil = FacebookLoginUtil.getInstance();
+
+        facebookLoginUtil.setup(this);
+
+    }
+
+    @Override
+    protected void onStart() {
+        googlePlusLoginUtil.connectGoogleApiClient();
+        super.onStart();
+        googlePlusLoginUtil.setupCache();
+
+        facebookLoginUtil.controlUser(this);
+
+    }
+
+    @Override
+    protected void onStop() {
+
+        googlePlusLoginUtil.disconnectGoogleApiClient();
+
+        super.onStop();
 
     }
 
@@ -39,12 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN){
 
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-
-            Intent intent = new Intent(this,MainActivity.class);
-
-            intent.putExtra(PLATFORM,GooglePlusLoginUtil.GOOGLE_LOGIN);
-
-            startActivity(intent);
+            Intent googleSignInIntent = new Intent(LoginActivity.this, MainActivityGoogle.class);
+            startActivity(googleSignInIntent);
 
         }else {
 

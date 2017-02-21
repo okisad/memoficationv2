@@ -10,11 +10,13 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.oktaysadoglu.memofication.activities.LoginActivity;
-import com.oktaysadoglu.memofication.activities.MainActivity;
+import com.oktaysadoglu.memofication.activities.MainActivityFacebook;
+import com.oktaysadoglu.memofication.activities.MainActivityGoogle;
 import com.oktaysadoglu.memofication.R;
 
 /**
@@ -61,7 +63,7 @@ public class FacebookLoginUtil {
 
                 Log.e("my","onsuccess");
 
-                Intent intent = new Intent(appCompatActivity,MainActivity.class);
+                Intent intent = new Intent(appCompatActivity,MainActivityFacebook.class);
 
                 intent.putExtra(LoginActivity.PLATFORM,FacebookLoginUtil.FACEBOOK_LOGIN);
 
@@ -79,9 +81,10 @@ public class FacebookLoginUtil {
 
             }
         });
+
     }
 
-    public void logoutProcess(final AppCompatActivity appCompatActivity){
+    public void setupLogout(final AppCompatActivity appCompatActivity){
 
         Button button = (Button) appCompatActivity.findViewById(R.id.activity_main_navigation_view_logout_button);
 
@@ -97,6 +100,22 @@ public class FacebookLoginUtil {
             }
         });
 
+    }
+
+    public void controlUser(AppCompatActivity appCompatActivity){
+
+        if(Profile.getCurrentProfile() != null){
+
+            Intent intent = new Intent(appCompatActivity,MainActivityFacebook.class);
+
+            appCompatActivity.startActivity(intent);
+
+        }
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        callbackManager.onActivityResult(requestCode,resultCode,data);
     }
 
     public CallbackManager getCallbackManager() {
