@@ -1,4 +1,4 @@
-package com.oktaysadoglu.memofication.socialLogins;
+package com.oktaysadoglu.memofication.socialLogins.utils;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -20,13 +20,16 @@ import com.oktaysadoglu.memofication.Memofication;
 import com.oktaysadoglu.memofication.activities.LoginActivity;
 import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.activities.MainActivityGoogle;
+import com.oktaysadoglu.memofication.socialLogins.pojos.SocialUser;
 
 
 /**
  * Created by oktaysadoglu on 17/02/2017.
  */
 
-public class GooglePlusLoginUtil extends LoginUtil implements GoogleApiClient.OnConnectionFailedListener,View.OnClickListener{
+public class GooglePlusIntegrationUtil extends IntegrationUtil {
+
+    public static String TAG = "GooglePlusIntegrationUtil";
 
     public static int RC_SIGN_IN = 9001;
 
@@ -36,7 +39,7 @@ public class GooglePlusLoginUtil extends LoginUtil implements GoogleApiClient.On
 
     private AppCompatActivity appCompatActivity;
 
-    public GooglePlusLoginUtil(AppCompatActivity appCompatActivity){
+    public GooglePlusIntegrationUtil(AppCompatActivity appCompatActivity){
 
         this.appCompatActivity = appCompatActivity;
 
@@ -47,11 +50,21 @@ public class GooglePlusLoginUtil extends LoginUtil implements GoogleApiClient.On
 
         googleSignInButton = (SignInButton) appCompatActivity.findViewById(R.id.sign_in_button);
 
-        googleSignInButton.setOnClickListener(this);
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
 
         GoogleSignInOptions gso = ((Memofication) appCompatActivity.getApplication()).getGoogleSignInOptions();
 
-        googleApiClient = ((Memofication) appCompatActivity.getApplication()).getGoogleApiClient(appCompatActivity, this);
+        googleApiClient = ((Memofication) appCompatActivity.getApplication()).getGoogleApiClient(appCompatActivity, new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                Log.e(TAG,connectionResult.getErrorMessage());
+            }
+        });
     }
 
     @Override
@@ -66,6 +79,7 @@ public class GooglePlusLoginUtil extends LoginUtil implements GoogleApiClient.On
                 Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(@NonNull Status status) {
+                        SocialUser.clearValues();
                         Intent intent = new Intent(appCompatActivity,LoginActivity.class);
                         appCompatActivity.startActivity(intent);
                         appCompatActivity.finish();
@@ -78,24 +92,21 @@ public class GooglePlusLoginUtil extends LoginUtil implements GoogleApiClient.On
 
     @Override
     public void setupCache(){
+
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
+
         if (opr.isDone()) {
-            Log.d("my", "Got cached sign-in");
+
             GoogleSignInResult result = opr.get();
-            Intent googleSignInIntent = new Intent(appCompatActivity, MainActivityGoogle.class);
-            googleSignInIntent.putExtra("token",result.getSignInAccount().getIdToken());
-            googleSignInIntent.putExtra("email",result.getSignInAccount().getEmail());
-            googleSignInIntent.putExtra("name",result.getSignInAccount().getDisplayName());
-            googleSignInIntent.putExtra("photo",result.getSignInAccount().getPhotoUrl());
-            appCompatActivity.startActivity(googleSignInIntent);
+
+            targetActivity(result);
+
         } else {
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
-                    //hideProgressDialog();
-                    /*handleSignInResult(googleSignInResult);*/
-                }
 
+                }
 
             });
         }
@@ -104,36 +115,31 @@ public class GooglePlusLoginUtil extends LoginUtil implements GoogleApiClient.On
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        Intent googleSignInIntent = new Intent(appCompatActivity, MainActivityGoogle.class);
-        if (result.getSignInAccount() != null){
-            googleSignInIntent.putExtra("token",result.getSignInAccount().getIdToken());
-            googleSignInIntent.putExtra("email",result.getSignInAccount().getEmail());
-            googleSignInIntent.putExtra("name",result.getSignInAccount().getDisplayName());
-            googleSignInIntent.putExtra("photo",result.getSignInAccount().getPhotoUrl());
-        }
-        appCompatActivity.startActivity(googleSignInIntent);
-    }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        targetActivity(result);
 
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-                break;
-        }
-    }
 
     private void signIn() {
 
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+
         appCompatActivity.startActivityForResult(signInIntent, RC_SIGN_IN);
 
+    }
+
+    private void targetActivity(GoogleSignInResult result){
+
+        Intent googleSignInIntent = new Intent(appCompatActivity, MainActivityGoogle.class);
+        if (result.getSignInAccount() != null){
+
+            SocialUser.setValues(result.getSignInAccount().getDisplayName(),result.getSignInAccount().getEmail(),result.getSignInAccount().getPhotoUrl(),result.getSignInAccount().getIdToken());
+
+        }
+        appCompatActivity.startActivity(googleSignInIntent);
     }
 
     public void disconnectGoogleApiClient(){

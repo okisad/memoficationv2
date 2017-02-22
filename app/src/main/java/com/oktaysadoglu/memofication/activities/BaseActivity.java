@@ -19,12 +19,16 @@ public class BaseActivity extends AppCompatActivity {
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
+    protected  MainActivitySetupNavigationToolbar mainActivitySetupNavigationToolbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        actionBarDrawerToggle = new MainActivitySetupNavigationToolbar(this).setup();
+        mainActivitySetupNavigationToolbar = new MainActivitySetupNavigationToolbar(this);
+
+        actionBarDrawerToggle = mainActivitySetupNavigationToolbar.setup();
     }
 
     @Override
@@ -56,5 +60,9 @@ public class BaseActivity extends AppCompatActivity {
 
         MainActivityExitDialog.build(this);
 
+    }
+
+    public MainActivitySetupNavigationToolbar getMainActivitySetupNavigationToolbar() {
+        return mainActivitySetupNavigationToolbar;
     }
 }

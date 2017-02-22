@@ -4,49 +4,55 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.oktaysadoglu.memofication.R;
-import com.oktaysadoglu.memofication.socialLogins.FacebookLoginUtil;
-import com.oktaysadoglu.memofication.socialLogins.GooglePlusLoginUtil;
+import com.oktaysadoglu.memofication.socialLogins.utils.FacebookIntegrationUtil;
+import com.oktaysadoglu.memofication.socialLogins.utils.GooglePlusIntegrationUtil;
 
-import static com.oktaysadoglu.memofication.socialLogins.GooglePlusLoginUtil.RC_SIGN_IN;
+import static com.oktaysadoglu.memofication.socialLogins.utils.GooglePlusIntegrationUtil.RC_SIGN_IN;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FacebookLoginUtil facebookLoginUtil;
-    private GooglePlusLoginUtil googlePlusLoginUtil;
+    private FacebookIntegrationUtil facebookIntegrationUtil;
+    private GooglePlusIntegrationUtil googlePlusIntegrationUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        googlePlusLoginUtil = new GooglePlusLoginUtil(this);
+        googlePlusIntegrationUtil = new GooglePlusIntegrationUtil(this);
 
-        googlePlusLoginUtil.setup();
+        googlePlusIntegrationUtil.setup();
 
-        facebookLoginUtil = new FacebookLoginUtil(this);
+        facebookIntegrationUtil = new FacebookIntegrationUtil(this);
 
-        facebookLoginUtil.setup();
+        facebookIntegrationUtil.setup();
 
     }
 
     @Override
     protected void onStart() {
-        googlePlusLoginUtil.connectGoogleApiClient();
+        facebookIntegrationUtil.startTracking();
+        googlePlusIntegrationUtil.connectGoogleApiClient();
         super.onStart();
-        googlePlusLoginUtil.setupCache();
-        facebookLoginUtil.setupCache();
+        googlePlusIntegrationUtil.setupCache();
+        facebookIntegrationUtil.setupCache();
     }
 
     @Override
     protected void onStop() {
 
-        googlePlusLoginUtil.disconnectGoogleApiClient();
+        googlePlusIntegrationUtil.disconnectGoogleApiClient();
 
         super.onStop();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        facebookIntegrationUtil.stopTracking();
+
+        super.onDestroy();
     }
 
     @Override
@@ -56,11 +62,11 @@ public class LoginActivity extends AppCompatActivity {
 
         if (requestCode == RC_SIGN_IN){
 
-            googlePlusLoginUtil.onActivityResult(requestCode,resultCode,data);
+            googlePlusIntegrationUtil.onActivityResult(requestCode,resultCode,data);
 
         }else {
 
-            facebookLoginUtil.onActivityResult(requestCode,resultCode,data);
+            facebookIntegrationUtil.onActivityResult(requestCode,resultCode,data);
 
         }
 

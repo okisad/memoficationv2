@@ -7,24 +7,25 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.oktaysadoglu.memofication.Memofication;
-import com.oktaysadoglu.memofication.socialLogins.GooglePlusLoginUtil;
-import com.oktaysadoglu.memofication.socialLogins.LoginUtil;
+import com.oktaysadoglu.memofication.socialLogins.pojos.SocialUser;
+import com.oktaysadoglu.memofication.socialLogins.utils.GooglePlusIntegrationUtil;
+import com.oktaysadoglu.memofication.socialLogins.utils.IntegrationUtil;
 
 public class MainActivityGoogle extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient mGoogleApiClient;
 
-    private LoginUtil googlePlusLoginUtil;
+    private IntegrationUtil googlePlusIntegrationUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        googlePlusLoginUtil = new GooglePlusLoginUtil(this);
+        googlePlusIntegrationUtil = new GooglePlusIntegrationUtil(this);
 
         mGoogleApiClient = ((Memofication) getApplication()).getGoogleApiClient(this, this);
 
-        Log.e("my","token : "+getIntent().getStringExtra("token"));
+        Log.e("my","token : "+ SocialUser.getAccessToken());
 
 
     }
@@ -36,7 +37,9 @@ public class MainActivityGoogle extends BaseActivity implements GoogleApiClient.
 
         super.onStart();
 
-        googlePlusLoginUtil.setupLogout(mGoogleApiClient);
+        googlePlusIntegrationUtil.setValuesToNavigation(this,getMainActivitySetupNavigationToolbar());
+
+        googlePlusIntegrationUtil.setupLogout(mGoogleApiClient);
     }
 
     @Override

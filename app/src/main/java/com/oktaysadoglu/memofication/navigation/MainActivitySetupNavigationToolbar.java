@@ -1,5 +1,6 @@
 package com.oktaysadoglu.memofication.navigation;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -8,25 +9,30 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.fragments.FirstFragment;
 import com.oktaysadoglu.memofication.fragments.SecondFragment;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by oktaysadoglu on 20/02/2017.
  */
 
-public class MainActivitySetupNavigationToolbar {
+public class MainActivitySetupNavigationToolbar implements View.OnClickListener{
 
     private AppCompatActivity appCompatActivity;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private Button logoutButton;
-    private int platform;
+
+    private TextView firstFragment;
+    private TextView secondFragment;
 
     public MainActivitySetupNavigationToolbar(AppCompatActivity appCompatActivity) {
         this.appCompatActivity = appCompatActivity;
@@ -44,9 +50,13 @@ public class MainActivitySetupNavigationToolbar {
         navigationView = (NavigationView) appCompatActivity.findViewById(R.id.nvView);
         actionBarDrawerToggle = new ActionBarDrawerToggle(appCompatActivity,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
 
-        setupNavigationToolbar();
+        firstFragment = (TextView) appCompatActivity.findViewById(R.id.nav_first_fragment);
+        secondFragment = (TextView) appCompatActivity.findViewById(R.id.nav_second_fragment);
 
-        setupDrawerContent();
+        firstFragment.setOnClickListener(this);
+        secondFragment.setOnClickListener(this);
+
+        setupNavigationToolbar();
 
     }
 
@@ -61,37 +71,32 @@ public class MainActivitySetupNavigationToolbar {
 
     }
 
-    private void setupDrawerContent() {
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                selectDrawerItem(item);
-                return true;
-            }
-        });
+    public void setProfileImage(AppCompatActivity appCompatActivity,Uri uri){
+
+        ImageView profilePictureImage = (ImageView) appCompatActivity.findViewById(R.id.nav_header_profile_picture);
+
+        Picasso.with(appCompatActivity)
+                .load(uri.toString())
+                .into(profilePictureImage);
+
     }
 
-    public void selectDrawerItem(MenuItem menuItem){
+    @Override
+    public void onClick(View view) {
 
         Fragment fragment = null;
 
-        switch (menuItem.getItemId()){
+        switch (view.getId()) {
             case R.id.nav_first_fragment:
-                fragment = FirstFragment.newInstance();
+                fragment = new FirstFragment();
                 break;
             case R.id.nav_second_fragment:
-                fragment = SecondFragment.newInstance();
-                break;
-            case R.id.nav_third_fragment:
+                fragment = new SecondFragment();
                 break;
         }
 
         appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent,fragment).commit();
-
-        menuItem.setChecked(true);
-
-        appCompatActivity.setTitle(menuItem.getTitle());
 
         drawerLayout.closeDrawers();
 

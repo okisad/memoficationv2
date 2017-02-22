@@ -1,4 +1,4 @@
-package com.oktaysadoglu.memofication.socialLogins;
+package com.oktaysadoglu.memofication.socialLogins.utils;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -19,14 +19,18 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.oktaysadoglu.memofication.activities.LoginActivity;
 import com.oktaysadoglu.memofication.activities.MainActivityFacebook;
-import com.oktaysadoglu.memofication.activities.MainActivityGoogle;
 import com.oktaysadoglu.memofication.R;
+import com.oktaysadoglu.memofication.socialLogins.pojos.SocialUser;
+
+import java.util.Arrays;
 
 /**
  * Created by oktaysadoglu on 17/02/2017.
  */
 
-public class FacebookLoginUtil extends LoginUtil{
+public class FacebookIntegrationUtil extends IntegrationUtil {
+
+    public static String TAG = "FacebookIntegrationUtil";
 
     private CallbackManager callbackManager;
 
@@ -36,18 +40,9 @@ public class FacebookLoginUtil extends LoginUtil{
 
     private ProfileTracker profileTracker;
 
-    public FacebookLoginUtil(AppCompatActivity appCompatActivity) {
+    public FacebookIntegrationUtil(AppCompatActivity appCompatActivity) {
 
         this.appCompatActivity = appCompatActivity;
-
-    }
-
-    public String getAccessToken() {
-
-        if (!AccessToken.getCurrentAccessToken().getToken().equals(""))
-            return AccessToken.getCurrentAccessToken().getToken();
-        else
-            return "";
 
     }
 
@@ -55,9 +50,9 @@ public class FacebookLoginUtil extends LoginUtil{
     @Override
     public void setup() {
 
-        LoginButton loginButton = (LoginButton) appCompatActivity.findViewById(R.id.login_button);
+        final LoginButton loginButton = (LoginButton) appCompatActivity.findViewById(R.id.login_button);
 
-        loginButton.setReadPermissions("");
+        loginButton.setReadPermissions(Arrays.asList("email"));
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -65,21 +60,25 @@ public class FacebookLoginUtil extends LoginUtil{
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                Log.e("my","onsuccess");
-
                 Intent intent = new Intent(appCompatActivity,MainActivityFacebook.class);
 
                 appCompatActivity.startActivity(intent);
+
+                Log.i(TAG,"Login is successful");
 
             }
 
             @Override
             public void onCancel() {
 
+                Log.i(TAG,"Login is cancelled");
+
             }
 
             @Override
             public void onError(FacebookException error) {
+
+                Log.e(TAG,error.getMessage());
 
             }
         });
@@ -88,12 +87,20 @@ public class FacebookLoginUtil extends LoginUtil{
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
 
+                Log.i(TAG,"access token is changed");
+
+
             }
         };
 
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+
+                Log.i(TAG,"profile is changed");
+
+                if (currentProfile != null)
+                    SocialUser.setValues(currentProfile.getName(),currentProfile.getId(),currentProfile.getProfilePictureUri(200,200),AccessToken.getCurrentAccessToken().getToken());
 
             }
         };
@@ -125,6 +132,9 @@ public class FacebookLoginUtil extends LoginUtil{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                SocialUser.clearValues();
+
                 LoginManager.getInstance().logOut();
 
                 Intent intent = new Intent(appCompatActivity,LoginActivity.class);
@@ -133,6 +143,21 @@ public class FacebookLoginUtil extends LoginUtil{
 
             }
         });
+
+    }
+
+
+    public void startTracking(){
+
+        profileTracker.startTracking();
+        accessTokenTracker.startTracking();
+
+    }
+
+    public void stopTracking(){
+
+        profileTracker.stopTracking();
+        accessTokenTracker.stopTracking();
 
     }
 
