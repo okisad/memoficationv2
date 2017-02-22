@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "624593840249",
+    "project_id": "memofication"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624593840249:android:61de3973fa69d9ad",
+        "android_client_info": {
+          "package_name": "com.oktaysadoglu.memofication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624593840249-91rtd24jesra1ckpfhbp553b7dbjiehl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oktaysadoglu.memofication",
+            "certificate_hash": "5AE43056263FD12C0642B93B2E44BED355D8F15B"
+          }
+        },
+        {
+          "client_id": "624593840249-v0idjpte9edpog5khjaopc3ls6jr098d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt1G1xiYW30dGRyid4XfJ_FTXEznADYss"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
