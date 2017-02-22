@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">Memofication</string>
+
+    <string name="facebook_app_id">216054025535154</string>
+    <string name="server_client_id">624593840249-snaa3tb5vasejrpeenpnumpmbqvhv375.apps.googleusercontent.com</string>
+
+    <string name="dialog_exit_main">Are you sure exit application?</string>
+    <string name="dialog_exit_title">Exit</string>
+    <string name="dialog_exit_yes_button">Yes</string>
+    <string name="dialog_exit_no_button">No</string>
+
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Navigation -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_play_text">Play</string>
+    <string name="navigation_achievement_text">Achievement</string>
+    <string name="navigation_settings_sub_title">Settings</string>
+    <string name="navigation_settings_reverse_text">Reverse</string>
+    <string name="navigation_settings_notification_on_off_text">Notification On/Off</string>
+    <string name="navigation_settings_number_of_notification_text">Notification Number</string>
+    <string name="navigation_logout_button_text">Logout</string>
+
+    <!-- NavigationNumberOfNotificationDialog -->
+
+    <string name="navigation_number_of_notification_dialog_title">Daily Notification Number</string>
+    <string name="navigation_number_of_notification_dialog_ok_button_text">Okay</string>
+    <string name="navigation_number_of_notification_dialog_cancel_button_text">Cancel</string>
+
+    <!-- BaseActivityExitDialog -->
+
+    <string name="activity_base_exit_dialog_title">Exit</string>
+    <string name="activity_base_exit_dialog_ok_button">Yes</string>
+    <string name="activity_base_exit_dialog_cancel_button">No</string>
+    <string name="activity_base_exit_dialog_main_text">Are you sure exit application?</string>
+    <!-- GameActivityProgressDialog -->
+
+    <string name="activity_game_progress_dialog_title">Please wait</string>
+    <string name="activity_game_progress_dialog_message">Loading Deck</string>
+
+    <!-- GameActivity -->
+
+    <string name="activity_game_toolbar_title">Memofication</string>
+
+    <!-- LoginActivity -->
+
+    <string name="activity_login_email_hint">Email</string>
+    <string name="activity_login_password_hint">Password</string>
+    <string name="activity_login_sign_up_text">Create New Account</string>
+    <string name="activity_login_login_button_text">Login</string>
+    <string name="activity_login_google_login_button_text">Login with Google</string>
+    <string name="activity_login_internet_access_warning">Please check your internet connection</string>
+
+    <!-- MainActivity -->
+
+    <string name="activity_main_level_list_card_level_text">Level</string>
+    <string name="activity_main_level_list_card_number_of_level_text">1</string>
+
+    <!-- Signup Activity -->
+
+    <string name="activity_signup_signup_button">Sign Up</string>
+    <string name="activity_signup_signup_email_hint">Email</string>
+    <string name="activity_signup_signup_password_one_hint">Password</string>
+    <string name="activity_signup_signup_password_two_hint">Password Again</string>
+
+
+    <string name="title_activity_placement_test">başlık</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
