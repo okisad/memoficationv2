@@ -2,6 +2,7 @@ package com.oktaysadoglu.memofication.activities;
 
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -22,6 +23,8 @@ public class MainActivityGoogle extends BaseActivity implements GoogleApiClient.
         googlePlusLoginUtil = new GooglePlusLoginUtil(this);
 
         mGoogleApiClient = ((Memofication) getApplication()).getGoogleApiClient(this, this);
+
+        Log.e("my","token : "+getIntent().getStringExtra("token"));
 
 
     }

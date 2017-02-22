@@ -18,5 +18,4 @@ public abstract class LoginUtil {
 
     public abstract void setupLogout(final GoogleApiClient googleApiClient);
 
-
 }

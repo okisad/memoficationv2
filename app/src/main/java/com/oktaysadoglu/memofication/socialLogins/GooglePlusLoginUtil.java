@@ -83,6 +83,10 @@ public class GooglePlusLoginUtil extends LoginUtil implements GoogleApiClient.On
             Log.d("my", "Got cached sign-in");
             GoogleSignInResult result = opr.get();
             Intent googleSignInIntent = new Intent(appCompatActivity, MainActivityGoogle.class);
+            googleSignInIntent.putExtra("token",result.getSignInAccount().getIdToken());
+            googleSignInIntent.putExtra("email",result.getSignInAccount().getEmail());
+            googleSignInIntent.putExtra("name",result.getSignInAccount().getDisplayName());
+            googleSignInIntent.putExtra("photo",result.getSignInAccount().getPhotoUrl());
             appCompatActivity.startActivity(googleSignInIntent);
         } else {
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
@@ -102,6 +106,12 @@ public class GooglePlusLoginUtil extends LoginUtil implements GoogleApiClient.On
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
         Intent googleSignInIntent = new Intent(appCompatActivity, MainActivityGoogle.class);
+        if (result.getSignInAccount() != null){
+            googleSignInIntent.putExtra("token",result.getSignInAccount().getIdToken());
+            googleSignInIntent.putExtra("email",result.getSignInAccount().getEmail());
+            googleSignInIntent.putExtra("name",result.getSignInAccount().getDisplayName());
+            googleSignInIntent.putExtra("photo",result.getSignInAccount().getPhotoUrl());
+        }
         appCompatActivity.startActivity(googleSignInIntent);
     }
 

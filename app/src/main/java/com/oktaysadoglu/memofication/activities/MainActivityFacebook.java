@@ -1,7 +1,9 @@
 package com.oktaysadoglu.memofication.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 
+import com.facebook.AccessToken;
 import com.oktaysadoglu.memofication.socialLogins.FacebookLoginUtil;
 import com.oktaysadoglu.memofication.socialLogins.LoginUtil;
 
@@ -18,6 +20,8 @@ public class MainActivityFacebook extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         facebookLoginUtil = new FacebookLoginUtil(this);
+
+        Log.e("my", AccessToken.getCurrentAccessToken().getToken());
 
     }
 

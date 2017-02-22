@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -29,6 +31,10 @@ public class FacebookLoginUtil extends LoginUtil{
     private CallbackManager callbackManager;
 
     private AppCompatActivity appCompatActivity;
+
+    private AccessTokenTracker accessTokenTracker;
+
+    private ProfileTracker profileTracker;
 
     public FacebookLoginUtil(AppCompatActivity appCompatActivity) {
 
@@ -50,6 +56,8 @@ public class FacebookLoginUtil extends LoginUtil{
     public void setup() {
 
         LoginButton loginButton = (LoginButton) appCompatActivity.findViewById(R.id.login_button);
+
+        loginButton.setReadPermissions("");
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -75,6 +83,20 @@ public class FacebookLoginUtil extends LoginUtil{
 
             }
         });
+
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+
+            }
+        };
+
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+
+            }
+        };
 
     }
 

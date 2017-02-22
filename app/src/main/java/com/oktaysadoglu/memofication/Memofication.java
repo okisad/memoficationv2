@@ -16,12 +16,15 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 public class Memofication extends Application{
 
+    public static String CLIENT_ID = "624593840249-v0idjpte9edpog5khjaopc3ls6jr098d.apps.googleusercontent.com";
+
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions gso;
     public AppCompatActivity activity;
 
     public GoogleSignInOptions getGoogleSignInOptions(){
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(CLIENT_ID)
                 .requestEmail()
                 .build();
         return gso;
