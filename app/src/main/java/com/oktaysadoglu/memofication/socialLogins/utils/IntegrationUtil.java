@@ -2,6 +2,7 @@ package com.oktaysadoglu.memofication.socialLogins.utils;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.oktaysadoglu.memofication.navigation.MainActivitySetupNavigationToolbar;
@@ -12,6 +13,8 @@ import com.oktaysadoglu.memofication.socialLogins.pojos.SocialUser;
  */
 
 public abstract class IntegrationUtil {
+
+    public static String TAG = "IntegrationUtil";
 
     public abstract void setup();
 
@@ -28,6 +31,10 @@ public abstract class IntegrationUtil {
             mainActivitySetupNavigationToolbar.setProfileImage(appCompatActivity);
 
             mainActivitySetupNavigationToolbar.setProfileName(appCompatActivity);
+
+        }else {
+
+            Log.e(TAG,"SocailUser object has null properties");
 
         }
 

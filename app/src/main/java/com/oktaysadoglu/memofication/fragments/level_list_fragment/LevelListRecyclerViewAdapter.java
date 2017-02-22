@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oktaysadoglu.memofication.R;
+import com.oktaysadoglu.memofication.fragments.game_fragment.GameFragment;
+import com.oktaysadoglu.memofication.services.GetAllWords;
 import com.oktaysadoglu.memofication.tools.GetColorFilter;
 
 /**
@@ -71,6 +73,12 @@ public class LevelListRecyclerViewAdapter extends RecyclerView.Adapter<LevelList
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    /*fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent,new GameFragment()).commit();*/
+
+                    GetAllWords go = new GetAllWords();
+
+                    go.getWord(2);
 
                     /*Intent intent = new Intent(fragmentActivity, GameActivity.newClass(ReversePreferences.isReverse(fragmentActivity)));
                     intent.putExtra(INTENT_LEVEL,level);

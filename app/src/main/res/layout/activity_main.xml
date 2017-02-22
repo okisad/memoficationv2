@@ -77,19 +77,19 @@
                             android:layout_weight="1"
                             android:textSize="20sp"
                             android:gravity="center"
-                            android:padding="10dp"
+                            android:padding="25dp"
                             android:clickable="true"
-                            android:text="1"/>
+                            android:text="@string/navigation_play_text"/>
                         <TextView
                             android:id="@+id/nav_second_fragment"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:textSize="20sp"
-                            android:padding="10dp"
+                            android:padding="25dp"
                             android:gravity="center"
                             android:clickable="true"
-                            android:text="2"/>
+                            android:text="@string/navigation_achievement_text"/>
                     </LinearLayout>
                 </android.support.design.widget.NavigationView>
                 <android.support.design.widget.NavigationView
@@ -121,33 +121,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:layout_margin="2dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/activity_main_navigation_view_is_reverse_text"
-                                android:layout_width="0dp"
-                                android:layout_weight="3"
-                                android:layout_height="match_parent"
-                                android:gravity="left|center"
-                                android:text="@string/navigation_settings_reverse_text"
-                                android:layout_marginLeft="2dp"
-                                android:textSize="16sp"
-                                />
-
-                            <Switch
-                                android:id="@+id/activity_main_navigation_view_is_reverse_switch"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
-                                />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
                             android:layout_margin="2dp">
                             <TextView
                                 android:id="@+id/activity_main_navigation_view_notification_on_off_text"
@@ -159,7 +132,7 @@
                                 android:layout_marginLeft="2dp"
                                 android:textSize="16sp"/>
                             <Switch
-                                android:id="@+id/activity_main_navigation_view_notification_switch"
+                                android:id="@+id/navigation_notification_on_off_switch"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="match_parent"

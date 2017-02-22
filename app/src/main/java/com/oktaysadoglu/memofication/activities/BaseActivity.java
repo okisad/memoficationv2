@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.dialogs.MainActivityExitDialog;
+import com.oktaysadoglu.memofication.fragments.game_fragment.GameFragment;
 import com.oktaysadoglu.memofication.fragments.level_list_fragment.LevelListFragment;
 import com.oktaysadoglu.memofication.navigation.MainActivitySetupNavigationToolbar;
 
@@ -71,7 +72,17 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        MainActivityExitDialog.build(this);
+        if (getSupportFragmentManager().findFragmentById(R.id.flContent) instanceof GameFragment){
+
+            super.onBackPressed();
+
+        }else {
+
+            MainActivityExitDialog.build(this);
+
+        }
+
+
 
     }
 
