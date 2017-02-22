@@ -25,7 +25,9 @@ public abstract class IntegrationUtil {
 
         if (SocialUser.controlOfNull()){
 
-            mainActivitySetupNavigationToolbar.setProfileImage(appCompatActivity,SocialUser.getPhotoUri());
+            mainActivitySetupNavigationToolbar.setProfileImage(appCompatActivity);
+
+            mainActivitySetupNavigationToolbar.setProfileName(appCompatActivity);
 
         }
 

@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.fragments.FirstFragment;
 import com.oktaysadoglu.memofication.fragments.SecondFragment;
+import com.oktaysadoglu.memofication.fragments.level_list_fragment.LevelListFragment;
+import com.oktaysadoglu.memofication.socialLogins.pojos.SocialUser;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -72,13 +74,21 @@ public class MainActivitySetupNavigationToolbar implements View.OnClickListener{
     }
 
 
-    public void setProfileImage(AppCompatActivity appCompatActivity,Uri uri){
+    public void setProfileImage(AppCompatActivity appCompatActivity){
 
         ImageView profilePictureImage = (ImageView) appCompatActivity.findViewById(R.id.nav_header_profile_picture);
 
         Picasso.with(appCompatActivity)
-                .load(uri.toString())
+                .load(SocialUser.getPhotoUri().toString())
                 .into(profilePictureImage);
+
+    }
+
+    public void setProfileName(AppCompatActivity appCompatActivity){
+
+        TextView profileNameTextView = (TextView) appCompatActivity.findViewById(R.id.nav_header_profile_name);
+
+        profileNameTextView.setText(SocialUser.getName());
 
     }
 
@@ -89,7 +99,7 @@ public class MainActivitySetupNavigationToolbar implements View.OnClickListener{
 
         switch (view.getId()) {
             case R.id.nav_first_fragment:
-                fragment = new FirstFragment();
+                fragment = LevelListFragment.newInstance();
                 break;
             case R.id.nav_second_fragment:
                 fragment = new SecondFragment();

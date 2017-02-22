@@ -11,20 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oktaysadoglu.memofication.R;
-import com.oktaysadoglu.memofication.activities.gameActivity.GameActivity;
-import com.oktaysadoglu.memofication.preferences.ReversePreferences;
 import com.oktaysadoglu.memofication.tools.GetColorFilter;
 
 /**
  * Created by oktaysadoglu on 05/02/16.
  */
 
-//Ana sayfa Level Listesinin Recycler Adapter classı
 public class LevelListRecyclerViewAdapter extends RecyclerView.Adapter<LevelListRecyclerViewAdapter.CardViewLevelListHolder> {
 
     private static int itemNumber = 100;
-
-    public static String INTENT_LEVEL = "level";
 
     private FragmentActivity mFragmentActivity;
 
@@ -37,7 +32,7 @@ public class LevelListRecyclerViewAdapter extends RecyclerView.Adapter<LevelList
     @Override
     public CardViewLevelListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_main_level_list_card_view,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.level_list_card_view,parent,false);
 
         ImageView star1 = (ImageView) view.findViewById(R.id.card_view_level_list_first_star);
         ImageView star2 = (ImageView) view.findViewById(R.id.card_view_level_list_second_star);
@@ -77,9 +72,9 @@ public class LevelListRecyclerViewAdapter extends RecyclerView.Adapter<LevelList
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(fragmentActivity, GameActivity.newClass(ReversePreferences.isReverse(fragmentActivity)));
+                    /*Intent intent = new Intent(fragmentActivity, GameActivity.newClass(ReversePreferences.isReverse(fragmentActivity)));
                     intent.putExtra(INTENT_LEVEL,level);
-                    fragmentActivity.startActivity(intent);
+                    fragmentActivity.startActivity(intent);*/
 
                 }
             });

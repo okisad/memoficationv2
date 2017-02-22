@@ -3,12 +3,14 @@ package com.oktaysadoglu.memofication.activities;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.dialogs.MainActivityExitDialog;
+import com.oktaysadoglu.memofication.fragments.level_list_fragment.LevelListFragment;
 import com.oktaysadoglu.memofication.navigation.MainActivitySetupNavigationToolbar;
 
 /**
@@ -29,6 +31,13 @@ public class BaseActivity extends AppCompatActivity {
         mainActivitySetupNavigationToolbar = new MainActivitySetupNavigationToolbar(this);
 
         actionBarDrawerToggle = mainActivitySetupNavigationToolbar.setup();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setStartFragment(LevelListFragment.newInstance());
     }
 
     @Override
@@ -53,7 +62,11 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setStartFragment(Fragment fragment){
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContent,fragment).commit();
+
+    }
 
     @Override
     public void onBackPressed() {
