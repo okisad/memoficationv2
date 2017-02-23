@@ -63,7 +63,8 @@ public class SwipeDeckAdapter extends BaseAdapter {
         wordCards.add(wordCard);
         wordCards.add(wordCard);
         wordCards.add(wordCard);
-        wordCards.add(wordCard);wordCards.add(wordCard);
+        wordCards.add(wordCard);
+        wordCards.add(wordCard);
         wordCards.add(wordCard);
         wordCards.add(wordCard);
         wordCards.add(wordCard);

@@ -87,15 +87,12 @@ public class WordCard implements Serializable{
 
     public void shuffle(){
 
-        words = new ArrayList<>();
+        Collections.shuffle(getWords());
 
-        words.add(getFirstOptionWord());
-        words.add(getSecondOptionWord());
-        words.add(getThirdOptionWord());
-        words.add(getFourthOptionWord());
-
-        Collections.shuffle(words);
-
+        setFirstOptionWord(getWords().get(0));
+        setSecondOptionWord(getWords().get(1));
+        setThirdOptionWord(getWords().get(2));
+        setFourthOptionWord(getWords().get(3));
     }
 
     @Override
