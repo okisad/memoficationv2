@@ -20,7 +20,13 @@ import com.oktaysadoglu.memofication.Memofication;
 import com.oktaysadoglu.memofication.activities.LoginActivity;
 import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.activities.MainActivityGoogle;
+import com.oktaysadoglu.memofication.services.pojo.AnsweredWord;
+import com.oktaysadoglu.memofication.services.pojo.User;
 import com.oktaysadoglu.memofication.socialLogins.pojos.SocialUser;
+
+import java.util.ArrayList;
+
+import static com.oktaysadoglu.memofication.activities.BaseActivity.user;
 
 
 /**
@@ -137,6 +143,8 @@ public class GooglePlusIntegrationUtil extends IntegrationUtil {
         if (result.getSignInAccount() != null){
 
             SocialUser.setValues(result.getSignInAccount().getDisplayName(),result.getSignInAccount().getEmail(),result.getSignInAccount().getPhotoUrl(),result.getSignInAccount().getIdToken());
+
+            user = new User(SocialUser.getEmail(),new ArrayList<AnsweredWord>());
 
         }
         appCompatActivity.startActivity(googleSignInIntent);

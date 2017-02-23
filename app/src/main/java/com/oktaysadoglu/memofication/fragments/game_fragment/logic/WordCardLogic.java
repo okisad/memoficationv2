@@ -27,24 +27,24 @@ public class WordCardLogic {
 
     public List<WordCard> getWordCards(int level) {
 
+        int startPoint = (level-1)*50 + 1;
+
         if (level <= 100) {
 
             List<Word> dicWords = Memofication.words;
 
-            Iterator<Word> iterator = dicWords.iterator();
+            for (int i = startPoint ; i < startPoint+50 ; i++){
 
-            int i = 1;
+                try {
 
-            while (iterator.hasNext()) {
+                    Word word = dicWords.get(i-1);
 
-                Word word = iterator.next();
+                    wordCards.add(prepareWordCardForWord(word));
 
-                wordCards.add(prepareWordCardForWord(word));
+                }catch (IndexOutOfBoundsException e){
 
-                i++;
+                }
 
-                if (i == 51)
-                    break;
 
             }
 

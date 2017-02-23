@@ -1,5 +1,6 @@
 package com.oktaysadoglu.memofication.fragments.game_fragment.adapter;
 
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,15 @@ import android.widget.TextView;
 
 import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.activities.BaseActivity;
+import com.oktaysadoglu.memofication.fragments.game_fragment.GameFragment;
+import com.oktaysadoglu.memofication.fragments.game_fragment.card_listeners.FirstCardButtonClickListener;
+import com.oktaysadoglu.memofication.fragments.game_fragment.card_listeners.FourthCardButtonClickListener;
+import com.oktaysadoglu.memofication.fragments.game_fragment.card_listeners.SecondCardButtonClickListener;
+import com.oktaysadoglu.memofication.fragments.game_fragment.card_listeners.ThirdCardButtonClickListener;
+import com.oktaysadoglu.memofication.fragments.game_fragment.logic.WordCardLogic;
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.Word;
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.WordCard;
+import com.oktaysadoglu.memofication.navigation.settings_listeners.OnClickListenerFragmentChange;
 
 
 import java.util.ArrayList;
@@ -23,59 +31,15 @@ public class SwipeDeckAdapter extends BaseAdapter {
 
     private List<WordCard> wordCards = new ArrayList<>();
     private BaseActivity baseActivity;
+    private GameFragment gameFragment;
 
-    public SwipeDeckAdapter(/*List<WordCard> wordCards,*/ BaseActivity baseActivity) {
+    public SwipeDeckAdapter(/*List<WordCard> wordCards,*/ BaseActivity baseActivity, int level, GameFragment gameFragment) {
 
-        Word w1 = new Word();
-        w1.setId((long) 3);
-        w1.setType("n");
-        w1.setWord("log");
-        w1.setMean("log");
+        this.gameFragment = gameFragment;
 
-        Word w2 = new Word();
-        w2.setId((long) 4);
-        w2.setType("v");
-        w2.setWord("go");
-        w2.setMean("gitmek");
+        WordCardLogic wordCardLogic = new WordCardLogic(new ArrayList<WordCard>());
 
-        Word w3 = new Word();
-        w3.setId((long) 5);
-        w3.setType("v");
-        w3.setWord("go");
-        w3.setMean("gitmek");
-
-        Word w4 = new Word();
-        w4.setId((long) 6);
-        w4.setType("v");
-        w4.setWord("go");
-        w4.setMean("gitmek");
-
-        WordCard wordCard = new WordCard();
-
-        wordCard.setMainWord(w1);
-        wordCard.setFirstOptionWord(w1);
-        wordCard.setSecondOptionWord(w2);
-        wordCard.setThirdOptionWord(w3);
-        wordCard.setFourthOptionWord(w4);
-
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-        wordCards.add(wordCard);
-
-
-
-        setWordCards(wordCards);
+        setWordCards(wordCardLogic.getWordCards(level));
         setBaseActivity(baseActivity);
     }
 
@@ -155,10 +119,10 @@ public class SwipeDeckAdapter extends BaseAdapter {
 
     private void setButtonsClickListeners(List<Button> buttons,ViewGroup parent,int position){
 
-        /*buttons.get(0).setOnClickListener(new FirstCardButtonClickListener(getGameActivity(),parent,getGameActivity().getCardStack(),buttons,getWordCards().get(position)));
-        buttons.get(1).setOnClickListener(new SecondCardButtonClickListener(getGameActivity(),parent,getGameActivity().getCardStack(),buttons,getWordCards().get(position)));
-        buttons.get(2).setOnClickListener(new ThirdCardButtonClickListener(getGameActivity(),parent,getGameActivity().getCardStack(),buttons,getWordCards().get(position)));
-        buttons.get(3).setOnClickListener(new FourthCardButtonClickListener(getGameActivity(),parent,getGameActivity().getCardStack(),buttons,getWordCards().get(position)));*/
+        buttons.get(0).setOnClickListener(new FirstCardButtonClickListener(getBaseActivity(),parent,gameFragment.getCardStack(),buttons,getWordCards().get(position)));
+        buttons.get(1).setOnClickListener(new SecondCardButtonClickListener(getBaseActivity(),parent,gameFragment.getCardStack(),buttons,getWordCards().get(position)));
+        buttons.get(2).setOnClickListener(new ThirdCardButtonClickListener(getBaseActivity(),parent,gameFragment.getCardStack(),buttons,getWordCards().get(position)));
+        buttons.get(3).setOnClickListener(new FourthCardButtonClickListener(getBaseActivity(),parent,gameFragment.getCardStack(),buttons,getWordCards().get(position)));
 
     }
 

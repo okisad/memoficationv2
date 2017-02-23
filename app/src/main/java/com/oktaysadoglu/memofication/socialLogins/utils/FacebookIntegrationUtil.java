@@ -50,9 +50,7 @@ public class FacebookIntegrationUtil extends IntegrationUtil {
     @Override
     public void setup() {
 
-        final LoginButton loginButton = (LoginButton) appCompatActivity.findViewById(R.id.login_button);
-
-        loginButton.setReadPermissions(Arrays.asList("email"));
+        LoginButton loginButton = (LoginButton) appCompatActivity.findViewById(R.id.login_button);
 
         callbackManager = CallbackManager.Factory.create();
 

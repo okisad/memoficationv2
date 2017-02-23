@@ -15,7 +15,7 @@ import retrofit2.Response;
  * Created by oktaysadoglu on 22/02/2017.
  */
 
-public class GetAllWords implements OnTaskCompleted{
+public class GetAllWords{
 
     private OnTaskCompleted onTaskCompleted;
 
@@ -40,7 +40,7 @@ public class GetAllWords implements OnTaskCompleted{
 
                 for(int i = 0 ; i < words.size() ; i++){
 
-                    System.out.println(i);
+                    /*System.out.println(i);*/
 
                     switch (words.get(i).getType()){
                         case "a":
@@ -84,8 +84,6 @@ public class GetAllWords implements OnTaskCompleted{
 
                 onTaskCompleted.onTaskCompleted();
 
-                /*Log.e("my", Memofication.words.toString());*/
-
             }
 
             @Override
@@ -95,13 +93,6 @@ public class GetAllWords implements OnTaskCompleted{
 
             }
         });
-
-    }
-
-    @Override
-    public void onTaskCompleted() {
-
-
 
     }
 }

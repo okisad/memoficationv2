@@ -1,6 +1,7 @@
 package com.oktaysadoglu.memofication.fragments.level_list_fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -73,7 +74,15 @@ public class LevelListRecyclerViewAdapter extends RecyclerView.Adapter<LevelList
                 @Override
                 public void onClick(View v) {
 
-                    fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent,new GameFragment()).commit();
+                    Bundle bundle = new Bundle();
+
+                    bundle.putInt("level",level);
+
+                    GameFragment gameFragment = new GameFragment();
+
+                    gameFragment.setArguments(bundle);
+
+                    fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.flContent,gameFragment).commit();
 
                     /*Intent intent = new Intent(fragmentActivity, GameActivity.newClass(ReversePreferences.isReverse(fragmentActivity)));
                     intent.putExtra(INTENT_LEVEL,level);

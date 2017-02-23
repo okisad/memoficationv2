@@ -46,15 +46,6 @@ public class Memofication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-
-        GetAllWords getAllWords = new GetAllWords(new OnTaskCompleted() {
-            @Override
-            public void onTaskCompleted() {
-
-            }
-        });
-
-        getAllWords.getWord(0);
     }
 
     public GoogleSignInOptions getGoogleSignInOptions(){

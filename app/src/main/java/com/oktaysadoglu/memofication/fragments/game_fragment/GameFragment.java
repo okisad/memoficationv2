@@ -42,6 +42,8 @@ public class GameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        level = getArguments().getInt("level");
+
         View view = inflater.inflate(R.layout.fragment_game,container,false);
 
         ButterKnife.bind(this,view);
@@ -63,7 +65,7 @@ public class GameFragment extends Fragment {
 
         /*Memofication.getJobManager().addJobInBackground(new WriteWordCardJob(startPoint,startPoint+50));*/
 
-        setSwipeDeckAdapter(new SwipeDeckAdapter((BaseActivity) getActivity()));
+        setSwipeDeckAdapter(new SwipeDeckAdapter((BaseActivity) getActivity(),level,this));
 
         cardStack.setAdapter(getSwipeDeckAdapter());
 
@@ -105,5 +107,9 @@ public class GameFragment extends Fragment {
 
     public void setSwipeDeckAdapter(SwipeDeckAdapter swipeDeckAdapter) {
         this.swipeDeckAdapter = swipeDeckAdapter;
+    }
+
+    public SwipeDeck getCardStack() {
+        return cardStack;
     }
 }
