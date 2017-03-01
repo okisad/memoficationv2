@@ -1,18 +1,12 @@
 package com.oktaysadoglu.memofication;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.Word;
-import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.WordCard;
-import com.oktaysadoglu.memofication.services.GetAllWords;
-import com.oktaysadoglu.memofication.services.OnTaskCompleted;
 
 import java.util.ArrayList;
 import java.util.List;

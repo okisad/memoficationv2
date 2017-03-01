@@ -2,6 +2,7 @@ package com.oktaysadoglu.memofication.services;
 
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.Word;
 import com.oktaysadoglu.memofication.services.pojo.AccessToken;
+import com.oktaysadoglu.memofication.services.pojo.Version;
 
 
 import java.util.List;
@@ -19,10 +20,13 @@ import retrofit2.http.Query;
  * Created by oktaysadoglu on 22/02/2017.
  */
 
-public interface ApiInterface {
+public interface RestApiInterface {
 
     @GET("rest/dictionary/getAllWords")
     Call<List<Word>> getAllWords();
+
+    @GET("rest/update")
+    Call<Version> getUpdateVersion();
 
     @FormUrlEncoded
     @POST("rest/auth/getAccessToken")

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.facebook.Profile;
 import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.socialLogins.utils.FacebookIntegrationUtil;
 import com.oktaysadoglu.memofication.socialLogins.utils.GooglePlusIntegrationUtil;
@@ -40,9 +41,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        Profile profile = Profile.getCurrentProfile();
+
+        facebookIntegrationUtil.nextActivity(profile);
+    }
+
+    @Override
     protected void onStop() {
 
         googlePlusIntegrationUtil.disconnectGoogleApiClient();
+
+        facebookIntegrationUtil.stopTracking();
 
         super.onStop();
 
@@ -50,8 +62,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        facebookIntegrationUtil.stopTracking();
-
         super.onDestroy();
     }
 

@@ -27,7 +27,6 @@ public class MainActivityGoogle extends BaseActivity implements GoogleApiClient.
         googlePlusIntegrationUtil = new GooglePlusIntegrationUtil(this);
 
         mGoogleApiClient = ((Memofication) getApplication()).getGoogleApiClient(this, this);
-
         AuthenticationService authenticationService = new AuthenticationService(new OnTaskCompleted() {
             @Override
             public void onTaskCompleted() {

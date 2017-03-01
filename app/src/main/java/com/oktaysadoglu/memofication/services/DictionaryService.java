@@ -1,9 +1,12 @@
 package com.oktaysadoglu.memofication.services;
 
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.oktaysadoglu.memofication.Memofication;
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.Word;
+import com.oktaysadoglu.memofication.services.pojo.Version;
+import com.oktaysadoglu.memofication.settings.UpdatePreferences;
 
 import java.util.List;
 
@@ -15,21 +18,31 @@ import retrofit2.Response;
  * Created by oktaysadoglu on 22/02/2017.
  */
 
-public class GetAllWords{
+public class DictionaryService {
 
     private OnTaskCompleted onTaskCompleted;
 
-    public GetAllWords(OnTaskCompleted onTaskCompleted) {
+    private VersionOnTaskCompleted versionOnTaskCompleted;
+
+    private AppCompatActivity appCompatActivity;
+
+    public DictionaryService(OnTaskCompleted onTaskCompleted, AppCompatActivity appCompatActivity) {
 
         this.onTaskCompleted = onTaskCompleted;
+        this.appCompatActivity = appCompatActivity;
 
     }
 
-    public void getWord(int i){
+    public DictionaryService(VersionOnTaskCompleted versionOnTaskCompleted, AppCompatActivity appCompatActivity) {
+        this.versionOnTaskCompleted = versionOnTaskCompleted;
+        this.appCompatActivity = appCompatActivity;
+    }
 
-        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+    public void getAllWord(){
 
-        Call<List<Word>> call = apiInterface.getAllWords();
+        RestApiInterface restApiInterface = RestApiClient.getClient().create(RestApiInterface.class);
+
+        Call<List<Word>> call = restApiInterface.getAllWords();
 
         call.enqueue(new Callback<List<Word>>() {
             @Override
@@ -95,4 +108,33 @@ public class GetAllWords{
         });
 
     }
+
+    public void getVersionNumber(){
+
+        RestApiInterface restApiInterface = RestApiClient.getClient().create(RestApiInterface.class);
+
+        Call<Version> call = restApiInterface.getUpdateVersion();
+
+        call.enqueue(new Callback<Version>() {
+            @Override
+            public void onResponse(Call<Version> call, Response<Version> response) {
+                Version version = response.body();
+
+                if (version != null){
+
+                    versionOnTaskCompleted.onTaskCompleted(version.getVersion());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Version> call, Throwable t) {
+
+                Log.e("UpdateService",t.getMessage());
+
+            }
+        });
+
+    }
+
 }

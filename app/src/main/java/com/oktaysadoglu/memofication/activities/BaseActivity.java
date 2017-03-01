@@ -15,15 +15,19 @@ import com.oktaysadoglu.memofication.dialogs.MainActivityExitDialog;
 import com.oktaysadoglu.memofication.fragments.game_fragment.GameFragment;
 import com.oktaysadoglu.memofication.fragments.level_list_fragment.LevelListFragment;
 import com.oktaysadoglu.memofication.navigation.MainActivitySetupNavigationToolbar;
-import com.oktaysadoglu.memofication.services.GetAllWords;
+import com.oktaysadoglu.memofication.services.DictionaryService;
 import com.oktaysadoglu.memofication.services.OnTaskCompleted;
+import com.oktaysadoglu.memofication.services.VersionOnTaskCompleted;
 import com.oktaysadoglu.memofication.services.pojo.User;
+import com.oktaysadoglu.memofication.settings.UpdatePreferences;
 
 /**
  * Created by oktaysadoglu on 21/02/2017.
  */
 
 public class BaseActivity extends AppCompatActivity {
+
+    public static String TAG = "BaseActivity";
 
     ProgressDialog progress;
 
@@ -38,30 +42,11 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        progress = new ProgressDialog(this);
-
-        progress.setMessage("Syncing :) ");
-        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progress.setIndeterminate(true);
-        progress.setCancelable(false);
-        progress.show();
-
-        GetAllWords getAllWords = new GetAllWords(new OnTaskCompleted() {
-            @Override
-            public void onTaskCompleted() {
-
-                Log.e("my","tamamlandi");
-
-                progress.dismiss();
-
-            }
-        });
-
-        getAllWords.getWord(0);
-
         mainActivitySetupNavigationToolbar = new MainActivitySetupNavigationToolbar(this);
 
         actionBarDrawerToggle = mainActivitySetupNavigationToolbar.setup();
+
+        updateDictionary(-1);
     }
 
     @Override
@@ -118,5 +103,75 @@ public class BaseActivity extends AppCompatActivity {
 
     public MainActivitySetupNavigationToolbar getMainActivitySetupNavigationToolbar() {
         return mainActivitySetupNavigationToolbar;
+    }
+
+    private void updateDictionary(final int i) {
+
+        final BaseActivity activity = this;
+
+        if (UpdatePreferences.getVersionNumber(activity) == -1) {
+
+            Log.e("my","-1");
+
+            showProgress(activity);
+
+            DictionaryService dictionaryService = new DictionaryService(new OnTaskCompleted() {
+                @Override
+                public void onTaskCompleted() {
+
+                    Log.e(TAG, "getting words from server is completed");
+
+                    UpdatePreferences.setVersionNumber(activity,i);
+
+                    dismissProgress();
+
+                }
+            }, activity);
+
+            dictionaryService.getAllWord();
+
+        } else {
+
+            Log.e("my","else ksımı");
+
+            DictionaryService dictionaryService = new DictionaryService(new VersionOnTaskCompleted() {
+                @Override
+                public void onTaskCompleted(int i) {
+
+                    int serverVersion = i;
+
+                    if (serverVersion > UpdatePreferences.getVersionNumber(activity)) {
+
+                        UpdatePreferences.setVersionNumber(activity, -1);
+
+                        updateDictionary(i);
+
+                    }
+
+                }
+            }, activity);
+
+            dictionaryService.getVersionNumber();
+
+        }
+
+    }
+
+    private void showProgress(AppCompatActivity appCompatActivity){
+
+        progress = new ProgressDialog(appCompatActivity);
+        progress.setMessage("Syncing :) ");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.setCancelable(false);
+        progress.show();
+
+
+    }
+
+    private void dismissProgress(){
+
+        progress.dismiss();
+
     }
 }

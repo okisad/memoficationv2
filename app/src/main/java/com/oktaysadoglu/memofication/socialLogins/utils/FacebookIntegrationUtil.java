@@ -11,6 +11,7 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
@@ -58,10 +59,10 @@ public class FacebookIntegrationUtil extends IntegrationUtil {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                Intent intent = new Intent(appCompatActivity,MainActivityFacebook.class);
-
-                appCompatActivity.startActivity(intent);
-
+                Profile profile = Profile.getCurrentProfile();
+                
+                nextActivity(profile);
+                
                 Log.i(TAG,"Login is successful");
 
             }
@@ -97,11 +98,22 @@ public class FacebookIntegrationUtil extends IntegrationUtil {
 
                 Log.i(TAG,"profile is changed");
 
-                if (currentProfile != null)
-                    SocialUser.setValues(currentProfile.getName(),currentProfile.getId(),currentProfile.getProfilePictureUri(200,200),AccessToken.getCurrentAccessToken().getToken());
+                nextActivity(currentProfile);
 
             }
         };
+
+        accessTokenTracker.startTracking();
+        profileTracker.startTracking();
+
+    }
+
+    public void nextActivity(Profile profile) {
+
+        if(profile != null){
+            Intent main = new Intent(appCompatActivity, MainActivityFacebook.class);
+            appCompatActivity.startActivity(main);
+        }
 
     }
 

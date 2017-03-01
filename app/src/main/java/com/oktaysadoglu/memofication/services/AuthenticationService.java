@@ -3,12 +3,8 @@ package com.oktaysadoglu.memofication.services;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.Word;
 import com.oktaysadoglu.memofication.services.pojo.AccessToken;
 import com.oktaysadoglu.memofication.settings.AccessTokenPreferences;
-import com.oktaysadoglu.memofication.socialLogins.pojos.SocialUser;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,18 +27,23 @@ public class AuthenticationService {
 
     public void setAccessToken(String token,String email,String platform){
 
-        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        RestApiInterface restApiInterface = RestApiClient.getClient().create(RestApiInterface.class);
 
-        Call<AccessToken> call = apiInterface.getAccessToken(token,email,"9cf3dcd6-15ac-4f93-9524-98b832a80138",platform);
+        Call<AccessToken> call = restApiInterface.getAccessToken(token,email,"9cf3dcd6-15ac-4f93-9524-98b832a80138",platform);
 
         call.enqueue(new Callback<AccessToken>() {
             @Override
             public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
                 AccessToken accessToken = response.body();
 
-                AccessTokenPreferences.setAccessToken(appCompatActivity,accessToken.getToken());
+                if (accessToken != null){
 
-                onTaskCompleted.onTaskCompleted();
+                    AccessTokenPreferences.setAccessToken(appCompatActivity,accessToken.getToken());
+
+                    onTaskCompleted.onTaskCompleted();
+
+                }
+
             }
 
             @Override

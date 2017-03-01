@@ -32,15 +32,6 @@ public class MainActivityFacebook extends BaseActivity {
 
         facebookIntegrationUtil = new FacebookIntegrationUtil(this);
 
-        ProfileTracker profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-
-            }
-        };
-
-        profileTracker.startTracking();
-
         SocialUser.setValues(Profile.getCurrentProfile().getName(),Profile.getCurrentProfile().getId(),Profile.getCurrentProfile().getProfilePictureUri(200,200),AccessToken.getCurrentAccessToken().getToken());
 
         user = new User(SocialUser.getEmail(),new ArrayList<AnsweredWord>());
