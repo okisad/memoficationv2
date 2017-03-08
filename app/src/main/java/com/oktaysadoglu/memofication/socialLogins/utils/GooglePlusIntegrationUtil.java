@@ -20,8 +20,8 @@ import com.oktaysadoglu.memofication.Memofication;
 import com.oktaysadoglu.memofication.activities.LoginActivity;
 import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.activities.MainActivityGoogle;
-import com.oktaysadoglu.memofication.services.pojo.AnsweredWord;
-import com.oktaysadoglu.memofication.services.pojo.User;
+import com.oktaysadoglu.memofication.server_services.pojo.AnsweredWord;
+import com.oktaysadoglu.memofication.server_services.pojo.User;
 import com.oktaysadoglu.memofication.socialLogins.pojos.SocialUser;
 
 import java.util.ArrayList;

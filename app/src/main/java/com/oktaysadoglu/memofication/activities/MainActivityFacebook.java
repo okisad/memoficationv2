@@ -4,17 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
 import com.facebook.Profile;
-import com.facebook.ProfileTracker;
-import com.oktaysadoglu.memofication.services.AuthenticationService;
-import com.oktaysadoglu.memofication.services.OnTaskCompleted;
-import com.oktaysadoglu.memofication.services.pojo.AnsweredWord;
-import com.oktaysadoglu.memofication.services.pojo.User;
+import com.oktaysadoglu.memofication.server_services.AuthenticationService;
+import com.oktaysadoglu.memofication.server_services.OnTaskCompleted;
+import com.oktaysadoglu.memofication.server_services.pojo.AnsweredWord;
+import com.oktaysadoglu.memofication.server_services.pojo.User;
 import com.oktaysadoglu.memofication.settings.AccessTokenPreferences;
 import com.oktaysadoglu.memofication.socialLogins.pojos.SocialUser;
 import com.oktaysadoglu.memofication.socialLogins.utils.FacebookIntegrationUtil;
-import com.oktaysadoglu.memofication.socialLogins.utils.IntegrationUtil;
 
 import java.util.ArrayList;
 

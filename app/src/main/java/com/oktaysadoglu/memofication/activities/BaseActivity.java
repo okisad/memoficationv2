@@ -15,10 +15,10 @@ import com.oktaysadoglu.memofication.dialogs.MainActivityExitDialog;
 import com.oktaysadoglu.memofication.fragments.game_fragment.GameFragment;
 import com.oktaysadoglu.memofication.fragments.level_list_fragment.LevelListFragment;
 import com.oktaysadoglu.memofication.navigation.MainActivitySetupNavigationToolbar;
-import com.oktaysadoglu.memofication.services.DictionaryService;
-import com.oktaysadoglu.memofication.services.OnTaskCompleted;
-import com.oktaysadoglu.memofication.services.VersionOnTaskCompleted;
-import com.oktaysadoglu.memofication.services.pojo.User;
+import com.oktaysadoglu.memofication.server_services.DictionaryService;
+import com.oktaysadoglu.memofication.server_services.OnTaskCompleted;
+import com.oktaysadoglu.memofication.server_services.VersionOnTaskCompleted;
+import com.oktaysadoglu.memofication.server_services.pojo.User;
 import com.oktaysadoglu.memofication.settings.UpdatePreferences;
 
 /**

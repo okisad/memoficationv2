@@ -1,12 +1,12 @@
-package com.oktaysadoglu.memofication.services;
+package com.oktaysadoglu.memofication.server_services;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.oktaysadoglu.memofication.Memofication;
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.Word;
-import com.oktaysadoglu.memofication.services.pojo.Version;
-import com.oktaysadoglu.memofication.settings.UpdatePreferences;
+import com.oktaysadoglu.memofication.server_services.pojo.Version;
 
 import java.util.List;
 
@@ -24,18 +24,18 @@ public class DictionaryService {
 
     private VersionOnTaskCompleted versionOnTaskCompleted;
 
-    private AppCompatActivity appCompatActivity;
+    private Context context;
 
-    public DictionaryService(OnTaskCompleted onTaskCompleted, AppCompatActivity appCompatActivity) {
+    public DictionaryService(OnTaskCompleted onTaskCompleted, Context context) {
 
         this.onTaskCompleted = onTaskCompleted;
-        this.appCompatActivity = appCompatActivity;
+        this.context = context;
 
     }
 
     public DictionaryService(VersionOnTaskCompleted versionOnTaskCompleted, AppCompatActivity appCompatActivity) {
         this.versionOnTaskCompleted = versionOnTaskCompleted;
-        this.appCompatActivity = appCompatActivity;
+        this.context = context;
     }
 
     public void getAllWord(){
@@ -50,50 +50,6 @@ public class DictionaryService {
                 List<Word> words = response.body();
 
                 Memofication.words = words;
-
-                for(int i = 0 ; i < words.size() ; i++){
-
-                    /*System.out.println(i);*/
-
-                    switch (words.get(i).getType()){
-                        case "a":
-                            Memofication.wordsA.add(words.get(i));
-                            break;
-                        case "adj.":
-                            Memofication.wordsAdj.add(words.get(i));
-                            break;
-                        case "adv.":
-                            Memofication.wordsAdv.add(words.get(i));
-                            break;
-                        case "conj.":
-                            Memofication.wordsConj.add(words.get(i));
-                            break;
-                        case "inter.":
-                            Memofication.wordsInter.add(words.get(i));
-                            break;
-                        case "n.":
-                            Memofication.wordsN.add(words.get(i));
-                            break;
-                        case "prep.":
-                            Memofication.wordsPrep.add(words.get(i));
-                            break;
-                        case "pron.":
-                            Memofication.wordsPron.add(words.get(i));
-                            break;
-                        case "u":
-                            Memofication.wordsU.add(words.get(i));
-                            break;
-                        case "v.":
-                            Memofication.wordsV.add(words.get(i));
-                            break;
-                        case "x":
-                            Memofication.wordsX.add(words.get(i));
-                            break;
-
-
-                    }
-
-                }
 
                 onTaskCompleted.onTaskCompleted();
 

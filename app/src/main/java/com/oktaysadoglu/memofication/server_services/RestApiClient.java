@@ -1,4 +1,4 @@
-package com.oktaysadoglu.memofication.services;
+package com.oktaysadoglu.memofication.server_services;
 
 import com.oktaysadoglu.memofication.tools.Network;
 

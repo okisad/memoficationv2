@@ -1,15 +1,10 @@
 package com.oktaysadoglu.memofication;
 
-import com.oktaysadoglu.memofication.fragments.game_fragment.logic.WordCardLogic;
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.Word;
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.WordCard;
-import com.oktaysadoglu.memofication.services.DictionaryService;
-import com.oktaysadoglu.memofication.services.OnTaskCompleted;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 /**

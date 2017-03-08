@@ -1,4 +1,4 @@
-package com.oktaysadoglu.memofication.services.pojo;
+package com.oktaysadoglu.memofication.server_services.pojo;
 
 /**
  * Created by oktaysadoglu on 23/02/2017.

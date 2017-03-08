@@ -1,9 +1,9 @@
-package com.oktaysadoglu.memofication.services;
+package com.oktaysadoglu.memofication.server_services;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.oktaysadoglu.memofication.services.pojo.AccessToken;
+import com.oktaysadoglu.memofication.server_services.pojo.AccessToken;
 import com.oktaysadoglu.memofication.settings.AccessTokenPreferences;
 
 import retrofit2.Call;
