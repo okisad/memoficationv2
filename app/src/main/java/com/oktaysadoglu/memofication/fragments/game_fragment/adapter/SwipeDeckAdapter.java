@@ -37,7 +37,7 @@ public class SwipeDeckAdapter extends BaseAdapter {
 
         this.gameFragment = gameFragment;
 
-        WordCardLogic wordCardLogic = new WordCardLogic(new ArrayList<WordCard>());
+        WordCardLogic wordCardLogic = new WordCardLogic(new ArrayList<WordCard>(),baseActivity);
 
         setWordCards(wordCardLogic.getWordCards(level));
         setBaseActivity(baseActivity);

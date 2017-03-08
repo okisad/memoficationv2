@@ -3,6 +3,7 @@ package com.oktaysadoglu.memofication.fragments.game_fragment.card_listeners;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -38,6 +39,14 @@ public abstract class CardButtonClickListener implements View.OnClickListener {
 
     private Context context;
 
+    private int mainId;
+
+    private int wordId;
+
+    private int order;
+
+    private Button button;
+
     public CardButtonClickListener(Context context, ViewGroup parent, SwipeDeck cardStack, List<Button> buttonsBundle, WordCard wordCard) {
 
         setWordCard(wordCard);
@@ -52,54 +61,69 @@ public abstract class CardButtonClickListener implements View.OnClickListener {
 
     }
 
-    public abstract void onClick(View v);
+    public void onClick(View v){
 
-    protected Button getButtonOfTrueAnswer(List<Button> buttonsBundle){
+        Log.e("my",getWordCard().toString());
 
-        Map<Integer,Button> lookup = new HashMap<>();
+        setMainId(getWordCard().getMainWord().getId());
+
+        setWordId(getWordCard().getWords().get(getOrder()).getId());
+
+        Handler handler = new Handler();
+
+        if (getMainId() == getWordId())
+            trueAnswerProcess(handler,getMainId(),getButton());
+        else
+            falseAnswerProcess(handler,getMainId(),getButton());
+
+    }
+
+    protected Button getButtonOfTrueAnswer(List<Button> buttonsBundle) {
+
+        Map<Integer, Button> lookup = new HashMap<>();
 
         List<Word> words = getWordCard().getWords();
 
-        lookup.put((int) (long) words.get(0).getId(),buttonsBundle.get(0));
-        lookup.put((int) (long) words.get(1).getId(),buttonsBundle.get(1));
-        lookup.put((int) (long) words.get(2).getId(),buttonsBundle.get(2));
-        lookup.put((int) (long) words.get(3).getId(),buttonsBundle.get(3));
+        lookup.put((int) (long) words.get(0).getId(), buttonsBundle.get(0));
+        lookup.put((int) (long) words.get(1).getId(), buttonsBundle.get(1));
+        lookup.put((int) (long) words.get(2).getId(), buttonsBundle.get(2));
+        lookup.put((int) (long) words.get(3).getId(), buttonsBundle.get(3));
 
         return lookup.get((int) (long) getWordCard().getMainWord().getId());
 
     }
 
-    protected void trueAnswerProcess(Handler handler,Long mainId,Button button){
+    protected void trueAnswerProcess(Handler handler, int mainId, Button button) {
 
         /*Memofication.getJobManager().addJobInBackground(new ProcessTrueAnswerWordCardJob(mainId));*/
 
-        paintButtons(true,button);
+        paintButtons(true, button);
 
-        swipeCardAccordingToAnswer(true,handler);
+        swipeCardAccordingToAnswer(true, handler);
 
     }
 
-    protected void falseAnswerProcess(Handler handler,Long mainId,Button button){
+    protected void falseAnswerProcess(Handler handler, int mainId, Button button) {
 
         /*Memofication.getJobManager().addJobInBackground(new ProcessFalseAnswerWordCardJob(mainId));*/
 
-        paintButtons(false,button);
+        paintButtons(false, button);
 
-        swipeCardAccordingToAnswer(false,handler);
+        swipeCardAccordingToAnswer(false, handler);
 
     }
 
-    private void paintButtons(boolean answer,Button button){
+    private void paintButtons(boolean answer, Button button) {
 
         Button buttonOfTrueAnswer = getButtonOfTrueAnswer(getButtonsBundle());
 
         if (answer)
             button.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.word_card_true_choice_background));
-        else{
+        else {
 
             button.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.word_card_false_choice_background));
 
-            if( buttonOfTrueAnswer != null){
+            if (buttonOfTrueAnswer != null) {
 
                 buttonOfTrueAnswer.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.word_card_true_choice_background));
 
@@ -109,29 +133,29 @@ public abstract class CardButtonClickListener implements View.OnClickListener {
 
     }
 
-    private void swipeCardAccordingToAnswer(final boolean answer, Handler handler){
+    private void swipeCardAccordingToAnswer(final boolean answer, Handler handler) {
 
-        enableDisableViewGroup(getParent(),false);
+        enableDisableViewGroup(getParent(), false);
 
-        if (answer){
+        if (answer) {
 
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     getCardStack().swipeTopCardLeft(SWIPE_CARD_SPEED);
-                    enableDisableViewGroup(getParent(),true);
+                    enableDisableViewGroup(getParent(), true);
                 }
-            },SWIPE_TRUE_CARD_DELAY);
+            }, SWIPE_TRUE_CARD_DELAY);
 
-        }else {
+        } else {
 
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     getCardStack().swipeTopCardRight(SWIPE_CARD_SPEED);
-                    enableDisableViewGroup(getParent(),true);
+                    enableDisableViewGroup(getParent(), true);
                 }
-            },SWIPE_FALSE_CARD_DELAY);
+            }, SWIPE_FALSE_CARD_DELAY);
 
         }
 
@@ -188,4 +212,35 @@ public abstract class CardButtonClickListener implements View.OnClickListener {
         this.context = context;
     }
 
+    public int getMainId() {
+        return mainId;
+    }
+
+    public void setMainId(int mainId) {
+        this.mainId = mainId;
+    }
+
+    public int getWordId() {
+        return wordId;
+    }
+
+    public void setWordId(int wordId) {
+        this.wordId = wordId;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public Button getButton() {
+        return button;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
+    }
 }

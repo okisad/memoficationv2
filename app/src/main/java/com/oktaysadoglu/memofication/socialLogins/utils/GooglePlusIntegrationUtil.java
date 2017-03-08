@@ -20,8 +20,11 @@ import com.oktaysadoglu.memofication.Memofication;
 import com.oktaysadoglu.memofication.activities.LoginActivity;
 import com.oktaysadoglu.memofication.R;
 import com.oktaysadoglu.memofication.activities.MainActivityGoogle;
+import com.oktaysadoglu.memofication.server_services.AuthenticationService;
+import com.oktaysadoglu.memofication.server_services.OnTaskCompleted;
 import com.oktaysadoglu.memofication.server_services.pojo.AnsweredWord;
 import com.oktaysadoglu.memofication.server_services.pojo.User;
+import com.oktaysadoglu.memofication.settings.AccessTokenPreferences;
 import com.oktaysadoglu.memofication.socialLogins.pojos.SocialUser;
 
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ import static com.oktaysadoglu.memofication.activities.BaseActivity.user;
 
 public class GooglePlusIntegrationUtil extends IntegrationUtil {
 
-    public static String TAG = "GooglePlusIntegrationUtil";
+    public static String TAG = "GooglePlusIntegration";
 
     public static int RC_SIGN_IN = 9001;
 
@@ -68,7 +71,7 @@ public class GooglePlusIntegrationUtil extends IntegrationUtil {
         googleApiClient = ((Memofication) appCompatActivity.getApplication()).getGoogleApiClient(appCompatActivity, new GoogleApiClient.OnConnectionFailedListener() {
             @Override
             public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                Log.e(TAG,connectionResult.getErrorMessage());
+                Log.e(TAG,"google auth problem");
             }
         });
     }
@@ -139,7 +142,7 @@ public class GooglePlusIntegrationUtil extends IntegrationUtil {
 
     private void targetActivity(GoogleSignInResult result){
 
-        Intent googleSignInIntent = new Intent(appCompatActivity, MainActivityGoogle.class);
+        final Intent googleSignInIntent = new Intent(appCompatActivity, MainActivityGoogle.class);
         if (result.getSignInAccount() != null){
 
             SocialUser.setValues(result.getSignInAccount().getDisplayName(),result.getSignInAccount().getEmail(),result.getSignInAccount().getPhotoUrl(),result.getSignInAccount().getIdToken());
@@ -147,7 +150,17 @@ public class GooglePlusIntegrationUtil extends IntegrationUtil {
             user = new User(SocialUser.getEmail(),new ArrayList<AnsweredWord>());
 
         }
-        appCompatActivity.startActivity(googleSignInIntent);
+
+        AuthenticationService authenticationService = new AuthenticationService(new OnTaskCompleted() {
+            @Override
+            public void onTaskCompleted() {
+                Log.e("mu","access token alışverisi okay");
+
+                appCompatActivity.startActivity(googleSignInIntent);
+            }
+        },appCompatActivity);
+
+        authenticationService.setAccessToken(SocialUser.getAccessToken(),SocialUser.getEmail(),"google");
     }
 
     public void disconnectGoogleApiClient(){

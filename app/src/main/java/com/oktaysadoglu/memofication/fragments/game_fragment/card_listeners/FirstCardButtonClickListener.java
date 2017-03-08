@@ -17,61 +17,13 @@ import java.util.List;
  */
 public class FirstCardButtonClickListener extends CardButtonClickListener{
 
-    private Button button;
-
-    private Long mainId;
-
-    private Long wordId;
-
     public FirstCardButtonClickListener(Context context, ViewGroup parent, SwipeDeck cardStack, List<Button> buttonsBundle, WordCard wordCard) {
         super(context,parent,cardStack,buttonsBundle,wordCard);
 
         setButton(buttonsBundle.get(0));
 
-    }
+        setOrder(1);
 
-    @Override
-    public void onClick(View v) {
-
-        Log.e("my",getWordCard().toString());
-
-        setMainId(getWordCard().getMainWord().getId());
-
-        setWordId(getWordCard().getWords().get(0).getId());
-
-        Handler handler = new Handler();
-
-        if (getMainId().equals(getWordId()))
-            trueAnswerProcess(handler,getMainId(),getButton());
-        else
-            falseAnswerProcess(handler,getMainId(),getButton());
-
-
-    }
-
-
-    public Long getMainId() {
-        return mainId;
-    }
-
-    public void setMainId(Long mainId) {
-        this.mainId = mainId;
-    }
-
-    public Long getWordId() {
-        return wordId;
-    }
-
-    public void setWordId(Long wordId) {
-        this.wordId = wordId;
-    }
-
-    public Button getButton() {
-        return button;
-    }
-
-    public void setButton(Button button) {
-        this.button = button;
     }
 
 }

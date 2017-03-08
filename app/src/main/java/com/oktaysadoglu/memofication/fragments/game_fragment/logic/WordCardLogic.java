@@ -1,10 +1,16 @@
 package com.oktaysadoglu.memofication.fragments.game_fragment.logic;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.oktaysadoglu.memofication.Memofication;
+import com.oktaysadoglu.memofication.database.helpers.MemoficationDatabaseHelper;
+import com.oktaysadoglu.memofication.database.mappers.WordMapper;
+import com.oktaysadoglu.memofication.database.repositories.Repository;
+import com.oktaysadoglu.memofication.database.schema.MemoficationDbSchema;
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.Word;
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.WordCard;
+import com.oktaysadoglu.memofication.server_services.pojo.Entity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,8 +27,13 @@ public class WordCardLogic {
 
     private List<WordCard> wordCards;
 
-    public WordCardLogic(List<WordCard> wordCards) {
+    private Activity activity;
+
+    private Repository<Entity> repository;
+
+    public WordCardLogic(List<WordCard> wordCards, Activity activity) {
         this.wordCards = wordCards;
+        this.activity = activity;
     }
 
     public List<WordCard> getWordCards(int level) {
@@ -31,20 +42,19 @@ public class WordCardLogic {
 
         if (level <= 100) {
 
-            List<Word> dicWords = Memofication.words;
+            MemoficationDatabaseHelper helper = MemoficationDatabaseHelper.getInstance(activity);
+
+            repository = helper.getRepository(new WordMapper());
+
+            List<Word> words = new ArrayList<>();
 
             for (int i = startPoint ; i < startPoint+50 ; i++){
 
-                try {
+                Word word = Word.class.cast(repository.getEntities(MemoficationDbSchema.DictionaryTable.Cols.ID,i).get(0));
 
-                    Word word = dicWords.get(i-1);
+                words.add(word);
 
-                    wordCards.add(prepareWordCardForWord(word));
-
-                }catch (IndexOutOfBoundsException e){
-
-                }
-
+                wordCards.add(prepareWordCardForWord(word));
 
             }
 
@@ -81,44 +91,14 @@ public class WordCardLogic {
         return wordsForChoice;
     }
 
-    private List<Word> getWordsListAccordingToType(String type) {
+    private List<Entity> getWordsListAccordingToType(String type) {
 
-        List<Word> words;
-
-        switch (type) {
-            case "a":
-                words = Memofication.wordsA;
-                break;
-            case "adj.":
-                words = Memofication.wordsAdj;
-                break;
-            case "adv.":
-                words = Memofication.wordsAdv;
-                break;
-            case "conj.":
-                words = Memofication.wordsConj;
-                break;
-            case "n.":
-                words = Memofication.wordsN;
-                break;
-            case "prep.":
-                words = Memofication.wordsPrep;
-                break;
-            case "pron.":
-                words = Memofication.wordsPron;
-                break;
-            case "v.":
-                words = Memofication.wordsV;
-                break;
-            default:
-                words = Memofication.words;
-                break;
-        }
+        List<Entity> words = repository.getEntities(MemoficationDbSchema.DictionaryTable.Cols.TYPE,type);
 
         return words;
     }
 
-    private List<Word> getWordsForChoices(Word meanWord,List<Word> words){
+    private List<Word> getWordsForChoices(Word meanWord,List<Entity> words){
 
         List<Word> wordsForChoice = new ArrayList<>();
 
@@ -132,11 +112,11 @@ public class WordCardLogic {
 
             int randomInt = generator.nextInt(words.size());
 
-            Word candidateWord = words.get(randomInt);
+            Word candidateWord = Word.class.cast(words.get(randomInt));
 
             for (int m = 0 ; m < wordsForChoice.size() ; m++){
 
-                if (wordsForChoice.get(m).getId().equals(candidateWord.getId()))
+                if (wordsForChoice.get(m).getId() == candidateWord.getId())
                     continue aLoop;
             }
 

@@ -18,12 +18,12 @@
         <activity android:name=".activities.MainActivityGoogle"></activity>
         <activity android:name=".activities.MainActivityFacebook"></activity>
         <activity android:name=".activities.LoginActivity">
-        </activity>
-        <activity android:name=".activities.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activities.TestActivity">
         </activity>
     </application>
 

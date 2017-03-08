@@ -2,14 +2,17 @@ package com.oktaysadoglu.memofication.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.oktaysadoglu.memofication.R;
-import com.oktaysadoglu.memofication.database.labs.MemoficationDBLab;
-import com.oktaysadoglu.memofication.server_services.DictionaryService;
-import com.oktaysadoglu.memofication.server_services.VersionOnTaskCompleted;
-import com.oktaysadoglu.memofication.settings.UpdatePreferences;
+import com.oktaysadoglu.memofication.database.helpers.MemoficationDatabaseHelper;
+import com.oktaysadoglu.memofication.database.mappers.WordMapper;
+import com.oktaysadoglu.memofication.database.repositories.Repository;
+import com.oktaysadoglu.memofication.database.repositories.SqLiteRepository;
+import com.oktaysadoglu.memofication.database.schema.MemoficationDbSchema;
+import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.Word;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,61 +29,19 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
         ButterKnife.bind(this);
 
-        /*final AppCompatActivity appCompatActivity = this;*/
-
-        testButton.setOnClickListener(/*new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MemoficationDBLab memoficationDBLab = MemoficationDBLab.getInstance(appCompatActivity);
-
-                *//*memoficationDBLab.open();*//*
-
-                Word word = new Word(Long.valueOf(1),"a ","fg","g");
-
-                Word word2 = new Word(Long.valueOf(2),"b ","fg","g");
-
-                List<Word> words = new ArrayList<Word>();
-                words.add(word);
-                words.add(word2);
-
-
-                memoficationDBLab.addWords(words);
-
-                List<Word> words1 = memoficationDBLab.getAllWords();
-
-                System.out.println(words1.toString());
-
-                memoficationDBLab.close();
-            }
-        }*/this);
+        testButton.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View view) {
 
-        final AppCompatActivity appCompatActivity = this;
+        MemoficationDatabaseHelper memoficationDatabaseHelper = MemoficationDatabaseHelper.getInstance(this);
 
-        UpdatePreferences.setVersionNumber(this,1);
+        Repository repository = memoficationDatabaseHelper.getRepository(new WordMapper());
 
-        DictionaryService dictionaryService = new DictionaryService(new VersionOnTaskCompleted() {
-            @Override
-            public void onTaskCompleted(int i) {
+        Log.e("yo", repository.getEntities(MemoficationDbSchema.DictionaryTable.Cols.TYPE,"n.").toString());
 
-                MemoficationDBLab dbLab = MemoficationDBLab.getInstance(appCompatActivity);
-
-                dbLab.open(i);
-
-                System.out.println("version "+ i);
-
-                System.out.println(dbLab.getAllWords().toString());
-
-                dbLab.close();
-
-            }
-        },this);
-
-        dictionaryService.getVersionNumber();
 
     }
 }

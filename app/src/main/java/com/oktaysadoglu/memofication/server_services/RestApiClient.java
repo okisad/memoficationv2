@@ -20,8 +20,8 @@ public class RestApiClient {
     public static Retrofit getClient() {
 
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(60*2, TimeUnit.SECONDS)
-                .connectTimeout(60*2, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(20, TimeUnit.SECONDS)
                 .build();
 
         if (retrofit==null) {

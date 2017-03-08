@@ -14,7 +14,7 @@ public class MemoficationDbSchema {
 
             public static final String UUID = "uuid";
 
-            public static final String ID = "id";
+            public static final String ID = "_id";
 
             public static final String NAME = "name";
 

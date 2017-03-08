@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.oktaysadoglu.memofication.database.helpers.MemoficationDatabaseHelper;
 import com.oktaysadoglu.memofication.fragments.game_fragment.pojo.Word;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +43,24 @@ public class Memofication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+
+        prepareDatabase();
+    }
+
+    private void prepareDatabase() {
+
+        MemoficationDatabaseHelper dbHelper = MemoficationDatabaseHelper.getInstance(this);
+
+        try {
+            dbHelper.createDataBase();
+            dbHelper.openDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public GoogleSignInOptions getGoogleSignInOptions(){

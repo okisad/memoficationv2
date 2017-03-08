@@ -11,7 +11,7 @@ import android.net.NetworkInfo;
 
 public class Network {
 
-    public static String HOST = "http://192.168.1.8:8080/";
+    public static String HOST = "http://192.168.1.45:8080/";
 
     public static boolean isNetworkAvailable(Activity activity) {
         ConnectivityManager connectivityManager

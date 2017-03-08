@@ -20,6 +20,7 @@ import com.oktaysadoglu.memofication.server_services.OnTaskCompleted;
 import com.oktaysadoglu.memofication.server_services.VersionOnTaskCompleted;
 import com.oktaysadoglu.memofication.server_services.pojo.User;
 import com.oktaysadoglu.memofication.settings.UpdatePreferences;
+import com.oktaysadoglu.memofication.tasks.UpdateDictionaryTask;
 
 /**
  * Created by oktaysadoglu on 21/02/2017.
@@ -46,7 +47,8 @@ public class BaseActivity extends AppCompatActivity {
 
         actionBarDrawerToggle = mainActivitySetupNavigationToolbar.setup();
 
-        updateDictionary(-1);
+        /*updateDictionary(-1);*/
+
     }
 
     @Override
@@ -128,7 +130,7 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }, activity);
 
-            dictionaryService.getAllWord();
+            /*dictionaryService.getAllWord();*/
 
         } else {
 
@@ -151,7 +153,7 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }, activity);
 
-            dictionaryService.getVersionNumber();
+            /*dictionaryService.getVersionNumber();*/
 
         }
 

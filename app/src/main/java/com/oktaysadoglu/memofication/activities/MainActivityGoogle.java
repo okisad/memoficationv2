@@ -27,15 +27,7 @@ public class MainActivityGoogle extends BaseActivity implements GoogleApiClient.
         googlePlusIntegrationUtil = new GooglePlusIntegrationUtil(this);
 
         mGoogleApiClient = ((Memofication) getApplication()).getGoogleApiClient(this, this);
-        AuthenticationService authenticationService = new AuthenticationService(new OnTaskCompleted() {
-            @Override
-            public void onTaskCompleted() {
-                Log.e("mu","access token alışverisi okay");
-                Log.e("mu",AccessTokenPreferences.getAccessToken(getApplicationContext()));
-            }
-        },this);
 
-        authenticationService.setAccessToken(SocialUser.getAccessToken(),SocialUser.getEmail(),"google");
 
         Log.e("my","token : "+ SocialUser.getAccessToken());
 
